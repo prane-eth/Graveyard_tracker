@@ -55,7 +55,7 @@ export class HomePage extends React.Component {
                     <th> Pin Code </th>
                     <th> Occupied </th>
                     <th> Vacancies </th>
-                    <th> Address </th>
+                    <th className="address"> Address </th>
                 </tr>
             </thead>
             <tbody>
@@ -69,13 +69,16 @@ export class HomePage extends React.Component {
                             <td className={key.vacancies<=5 ? 'low-vacancies' : ''}>
                                 {key.vacancies}
                             </td>
-                            <td> {key.address} </td>
+                            <td className="address"> {key.address} </td>
                         </tr>
                     )
                 })
             }
             </tbody>
         </table>
+        <input type="button" value="Login/Signup" onClick={() => {
+            window.location.href = "/login"
+        }} />
       </div>
     );
   }

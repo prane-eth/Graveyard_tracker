@@ -1,9 +1,11 @@
 
-have good background color
-
-have good styled text at top of page (with h1 tag)
-
 backend:
+
+create signup and login features
+create default admin account
+in login, generate access token
+
+during signup, ask for ID proof. dont store it
 
 display json response in the form of table
 
@@ -12,3 +14,7 @@ enable to update data every 1 minute
 add option to search by pin code
 sort by nearest pin code by finding abs(difference) between them
 if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
+
+have good background color
+
+have good styled text at top of page (with h1 tag)

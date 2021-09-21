@@ -3,8 +3,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css'
 import { HomePage } from './components/HomePage.js'
-import { LoginPage } from './components/LoginPage.js'
-import { AddDataPage } from './components/AddDataPage.js'
+import { LoginPage, AddDataPage } from './components/LoginPage.js'
 
 class LogoutPage extends React.Component {
   // sleep = (milliseconds) => {

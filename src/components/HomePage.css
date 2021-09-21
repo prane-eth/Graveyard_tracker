@@ -1,8 +1,5 @@
 body    {
-    /* background-image: linear-gradient(to top, #F2FCE2 0%, #E7FCF4 100%); */
-    /* background-image: linear-gradient(to top, #F2FCE2 0%, #b5dacc 90%); */
-    /* background-image: linear-gradient(to bottom, #aaf 0%, #defdff 100%); */
-    
+    background-image: linear-gradient(to top, #F2FCE2 0%, #E7FCF4 100%);
 }
 
 table {
@@ -13,6 +10,7 @@ table {
     margin-top: 0;
     margin-bottom: 0;
     border-radius: 10px;
+    border-bottom: 5px solid green;
 
     /* Blue-colored Glowing effect */
     outline: none;
@@ -26,10 +24,15 @@ thead   {
 }
   
 td, th {
-    border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
     text-align: center;
+    min-width: 140px;
+}
+
+th  {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 tr:hover    {
@@ -41,10 +44,10 @@ tr:hover    {
 
 tr:nth-child(even) {
     background-color: #ddd;
-    border: 1px solid white;
+    /* border: 1px solid white; */
 }
 tr:nth-child(even) > td {
-    border: 1px solid white;
+    /* border: 1px solid white; */
 }
 tr:nth-child(even):hover {
     background-color: #ccc;
@@ -56,4 +59,16 @@ tr:nth-child(even):hover {
 .low-vacancies  {
     color: red;
     background-color: #fcc;
+}
+
+.address    {
+    width: 250px;
+}
+
+input   {
+    margin-top: 30px;
+    background-color: green;
+    border-radius: 10px;
+    color: orange;
+    padding: 10px;
 }
