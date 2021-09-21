@@ -1,13 +1,13 @@
 
-if vacancies <= 5, display vacancies in red color
+have good background color
+
+have good styled text at top of page (with h1 tag)
+
+backend:
 
 display json response in the form of table
 
 enable to update data every 1 minute
-
-have good background color
-
-have good styled text at top of page (with h1 tag)
 
 add option to search by pin code
 sort by nearest pin code by finding abs(difference) between them

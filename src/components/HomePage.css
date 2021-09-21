@@ -1,3 +1,9 @@
+body    {
+    /* background-image: linear-gradient(to top, #F2FCE2 0%, #E7FCF4 100%); */
+    /* background-image: linear-gradient(to top, #F2FCE2 0%, #b5dacc 90%); */
+    /* background-image: linear-gradient(to bottom, #aaf 0%, #defdff 100%); */
+    
+}
 
 table {
     font-family: arial, sans-serif;
@@ -6,6 +12,17 @@ table {
     margin: 25%;
     margin-top: 0;
     margin-bottom: 0;
+    border-radius: 10px;
+
+    /* Blue-colored Glowing effect */
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 50px #9ecaed;
+}
+
+thead   {
+    background-color: #8080aa;
+    color: white;
 }
   
 td, th {
@@ -15,10 +32,28 @@ td, th {
     text-align: center;
 }
 
+tr:hover    {
+    background-color: #eee;
+    outline: none;
+    border-color: rgb(255, 136, 0);
+    box-shadow: 0 0 10px rgb(255, 136, 0);
+}
+
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #ddd;
     border: 1px solid white;
 }
 tr:nth-child(even) > td {
     border: 1px solid white;
+}
+tr:nth-child(even):hover {
+    background-color: #ccc;
+    outline: none;
+    border-color: rgb(255, 136, 0);
+    box-shadow: 0 0 10px rgb(255, 136, 0);
+}
+
+.low-vacancies  {
+    color: red;
+    background-color: #fcc;
 }

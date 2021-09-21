@@ -66,7 +66,9 @@ export class HomePage extends React.Component {
                             <td> {key.name} </td>
                             <td> {key.pinCode} </td>
                             <td> {key.occupied} </td>
-                            <td> {key.vacancies} </td>
+                            <td className={key.vacancies<=5 ? 'low-vacancies' : ''}>
+                                {key.vacancies}
+                            </td>
                             <td> {key.address} </td>
                         </tr>
                     )
