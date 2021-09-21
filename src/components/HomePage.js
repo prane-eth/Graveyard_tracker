@@ -3,45 +3,49 @@ import React from 'react'
 import axios from 'axios'
 import './HomePage.css'
 
+var backendURL = ''
+if (window.location.href.includes('localhost'))
+  backendURL = 'http://localhost:5000'
+else
+  backendURL = 'https://gyard-be.herokuapp.com'
+
+// var backendURL = 'https://gyard-be.herokuapp.com'
+
 export class HomePage extends React.Component {
   constructor(props){
     super(props)
-    var dummyData = {
-      error: [],
-      data: [
-        {name: 'Government graveyard',
-            pinCode: 111111, occupied: 10, vacancies: 20,
-            address: 'Bandivali, Mumbai rural, Maharastra, India'},
-        {name: 'Hospital cemetery',
-            pinCode: 111112, occupied: 12, vacancies: 30,
-            address: 'Ambivali, Mumbai rural, Maharastra, India'},
-        {name: 'Municipal Corporation graveyard',
-            pinCode: 111113, occupied: 30, vacancies: 5,
-            address: 'Andheri, Mumbai rural, Maharastra, India'},
-        {name: 'NGO cemetery',
-            pinCode: 111114, occupied: 10, vacancies: 20,
-            address: 'Irapuram, Trivendrum rural, Kerala, India'}
-      ]
-    }
-    this.state = { data : dummyData || {} }
-    this.backendURL = 'http://localhost:5000'
+    var dummyData = [
+      { name: 'Government graveyard',
+          pinCode: 111111, occupied: 10, vacancies: 20,
+          address: 'Bandivali, Mumbai rural, Maharastra, India' },
+      { name: 'Hospital cemetery',
+          pinCode: 111112, occupied: 12, vacancies: 30,
+          address: 'Ambivali, Mumbai rural, Maharastra, India' }
+    ]
+    this.state = { data : dummyData || [] }
+    
+    this.backendURL = ''
+    if (window.location.href.includes('localhost'))
+        this.backendURL = 'http://localhost:5000'
+    else
+        this.backendURL = 'https://gyard-be.herokuapp.com'
     // this.backendURL = 'https://gyard-be.herokuapp.com'
   }
-  updateData = async () => {
-    var response = await axios.get(this.backendURL + '/getData/')
-    if (!response)
+  getData = async () => {
+    var res = await axios.get(this.backendURL + '/getData')
+    res = res.data
+    if (!res)
         console.log('No response from server')
-    else if ('error' in response && response.error)
-        console.log('response has errors')
-    else {
-        this.setState({ data : response.data })
-    }
+    else if (res.error)
+        console.log('error: ' + res.error)
+    else
+        this.setState({ data : res })
   }
   componentDidMount() {
-
+    this.getData()
   }
   render()  {
-    // var data = this.state.data.data  // this is an arra
+    // var data = this.state.data.data  // this is an array
     return (
       <div className="App">
         <header className="App-header">
@@ -60,7 +64,7 @@ export class HomePage extends React.Component {
             </thead>
             <tbody>
             {
-                this.state.data.data.map((key, index) => {
+                this.state.data.map((key, index) => {
                     return (
                         <tr key={index}>
                             <td> {key.name} </td>
@@ -76,7 +80,7 @@ export class HomePage extends React.Component {
             }
             </tbody>
         </table>
-        <input type="button" value="Login/Signup" onClick={() => {
+        <input type="button" value="Update data" onClick={() => {
             window.location.href = "/login"
         }} />
       </div>

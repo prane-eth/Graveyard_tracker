@@ -3,23 +3,32 @@ import cookie from 'react-cookies'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
-var backendURL = 'http://localhost:5000'
 
 export class LoginPage extends React.Component {
+    constructor(props)  {
+        super(props)
+        this.backendURL = ''
+        if (window.location.href.includes('localhost'))
+            this.backendURL = 'http://localhost:5000'
+        else
+            this.backendURL = 'https://gyard-be.herokuapp.com'
+        // this.backendURL = 'https://gyard-be.herokuapp.com'
+    }
     login = async () => {
         var email = document.getElementById('email')
         var password = document.getElementById('password')
         email = email.value
         password = password.value
-        let url = backendURL + '/login?email=' + email + '&password=' + password
+        let url = this.backendURL + '/login?email=' + email + '&password=' + password
         let res = await axios.get(url)
-        if ('error' in res)
+        res = res.data
+        if (res.error)
             return 'Unable to login with that credentials'
-        else if ('accessToken' in res) {
-            var accessToken = res.accessToken
-            cookie.save('accessToken', accessToken, { path: '/' })
+        else if (res.access_token) {
+            var access_token = res.access_token
+            cookie.save('access_token', access_token, { path: '/' })
             window.location.href = "/addData"
-            return accessToken
+            return access_token
         }
     }
     signup = async () => {
@@ -27,20 +36,23 @@ export class LoginPage extends React.Component {
         var password = document.getElementById('password')
         email = email.value
         password = password.value
-        let url = backendURL + '/signup?email=' + email + '&password=' + password
+        let url = this.backendURL + '/signup?email=' + email + '&password=' + password
         let res = await axios.get(url)
         res = res.data
         console.log(res)
-        if (res.error)
-            return 'Unable to signup with that credentials'
-        else if (res.signupStatus == 'success') {
-            window.location.href = "/login"  // redirect to same page to login
-            return 'success'
+        var responseText = document.getElementById('responseText')
+        if (res.error) {
+            responseText.style = 'color: red'
+            responseText.innerText = res.error
+        } else if (res.status == 'success') {
+            // window.location.href = "/login"  // redirect to same page to login
+            responseText.style = 'color: green'
+            responseText.innerText = res.status
         }
     }
     render()    {
-        let accessToken = cookie.load('accessToken')
-        if (accessToken)
+        let access_token = cookie.load('access_token')
+        if (access_token)
             return <Redirect to="/addData" />
         return (
             <div className="loginPage">
@@ -50,13 +62,25 @@ export class LoginPage extends React.Component {
                 <br />
                 <input type="button" onClick={() => {this.login()}} value="Login"/>
                 <input type="button" onClick={() => {this.signup()}} value="Signup"/>
+                <input type="button" value="Home" onClick={() => { window.location.href = '/' }}/>
+                <br />
+                <p id="responseText"></p>
             </div>
         )
     }
 }
 
 export class AddDataPage extends React.Component {
-    submitValues = () => {
+    constructor(props)  {
+        super(props)
+        this.backendURL = ''
+        if (window.location.href.includes('localhost'))
+            this.backendURL = 'http://localhost:5000'
+        else
+            this.backendURL = 'https://gyard-be.herokuapp.com'
+        // this.backendURL = 'https://gyard-be.herokuapp.com'
+    }
+    submitValues = async () => {
         var name = document.getElementById('name').value
         var pinCode = document.getElementById('pinCode').value
         var occupied = document.getElementById('occupied').value
@@ -69,17 +93,31 @@ export class AddDataPage extends React.Component {
             return
         }
         if (""+pinCode.length != 6)  {
-            msgDiv.style = 'color: lightred'
+            msgDiv.style = 'color: red'
             msgDiv.innerText = 'Pin Code should have only 6 digits'
             return
         }
         console.log(name, pinCode, occupied, vacancies, address)
+
+        var url = this.backendURL + '/updateData' + '?name=' + name + '&pinCode=' + pinCode +
+            '&occupied=' + occupied + '&vacancies=' + vacancies + '&address=' + address
+        var res = await axios.get(url)
+        console.log(url)
+        res = res.data
+        if (res.error) {
+            msgDiv.style = 'color: red'
+            msgDiv.innerText = res.error
+            return
+        }
         msgDiv.style = 'color: green'
-        msgDiv.innerText = 'Updated data successfully. Thank you.'
+        if (res.status)
+            msgDiv.innerText = res.status
+        else
+            msgDiv.innerText = 'unknown error'
     }
     render()    {
-        let accessToken = cookie.load('accessToken')
-        if (!accessToken)
+        let access_token = cookie.load('access_token')
+        if (!access_token)
             return <Redirect to="/login" />
         return (<div className="addDataPage">
             <h2 className="addDataHeading"> Add data </h2>
@@ -88,10 +126,12 @@ export class AddDataPage extends React.Component {
             Occupied:  <input type="number" placeholder="Occupied" id="occupied"/> <br />
             Vacancies:  <input type="number" placeholder="Vacancies" id="vacancies"/> <br />
             Address:  <input type="text" placeholder="Address" id="address"/> <br />
-            <input type="button" id="button" value="Submit" className="submitButton" 
-                onClick={() => {this.submitValues()}}/> <br />
-            <input type="button" id="button" value="Logout" className="submitButton" 
-                onClick={() => { window.location.href = '/logout'}} /> <br />
+            <input type="button" value="Submit" className="submitButton" 
+                onClick={() => {this.submitValues()}}/>
+            <input type="button" value="Logout" className="submitButton" 
+                onClick={() => { window.location.href = '/logout'}}/>
+            <input type="button" value="Home" className="submitButton"
+                onClick={() => { window.location.href = '/' }}/>
             <p className="errorMsgClass" id="errorMsg"></p>
         </div>)
     }
