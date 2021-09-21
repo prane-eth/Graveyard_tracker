@@ -1,19 +1,17 @@
 # Graveyard vacancy tracking system
 
-Deployed link https://gyard.herokuapp.com/
+Deployed link https://gyard.herokuapp.com/ \
 Backend link https://github.com/vh-praneeth/Graveyard_tracker_backend
 
 ## Project details
 
-Because many people die during COVID times. We need to find a burial ground which has a vacancy.
-
-We create data that displays vacancies in graveyards.
-Users can check and decide to which graveyard they need to take a dead person.
-
 This project "Graveyard vacancy tracking system" is a project made to help people all the time,
 especially during COVID times. A graveyard is a place where dead bodies are either buried or
 burnt. Because many people die during COVID times, we need to find a burial ground that has a
-vacancy. \
+vacancy.
+
+We create data that displays vacancies in graveyards. Users can check and decide to which graveyard they should to take a dead person.
+
 This project is about a web application which shows vacancies in all the graveyards nearby. We
 create data that displays vacancies in graveyards. Users can check and decide to which graveyard
 they need to take a dead person. Because of the high number of COVID cases and high
@@ -31,7 +29,7 @@ ExpressJS and NodeJS for the backend. The interaction between frontend and backe
 done with either HTTP APIs or Web Sockets.
 
 
-### More information
+#### TODO
 useful during covid times. request cemetery or providers for vacancies \
 Hospital staff or people cant travel for many kilometres to search vacancies \
 request required vehicles/things/chairs/meals for religious rituals \
@@ -39,5 +37,4 @@ enable google map link, whatsapp link, phone call button \
 cemetery manager/visitor/govt can add data \
 end users can use data and directly go there. booking is optional \
 generate death certificate pdf with cemetery/govt logo \
-
 button to view location in google map

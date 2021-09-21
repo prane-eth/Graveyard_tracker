@@ -2,8 +2,8 @@
 backend:
 
 create signup and login features
-create default admin account
-in login, generate access token
+create default admin account in backend
+after login, generate access token. store in cookie
 
 during signup, ask for ID proof. dont store it
 
@@ -18,3 +18,5 @@ if not found by pin code, show no graveyard is found in your area. enter pincode
 have good background color
 
 have good styled text at top of page (with h1 tag)
+
+in AddDataPage, if name and pin code matches with existing data, update data.

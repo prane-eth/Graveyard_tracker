@@ -46,9 +46,9 @@ tr:nth-child(even) {
     background-color: #ddd;
     /* border: 1px solid white; */
 }
-tr:nth-child(even) > td {
-    /* border: 1px solid white; */
-}
+/* tr:nth-child(even) > td {
+    border: 1px solid white;
+} */
 tr:nth-child(even):hover {
     background-color: #ccc;
     outline: none;
@@ -67,8 +67,29 @@ tr:nth-child(even):hover {
 
 input   {
     margin-top: 30px;
-    background-color: green;
     border-radius: 10px;
-    color: orange;
     padding: 10px;
+    /* background-color: green;
+    color: orange; */
+}
+.loginPage {
+    margin-left: 30vw;
+    margin-top: 30vh;
+}
+.addDataPage {
+    width: 40vw;
+    margin-left: 15vw;
+    margin-right: 5vw;
+    padding-left: 15vw;
+    padding-right: 5vw;
+    margin-top: 10vh;
+    padding-bottom: 5vh;
+    border: 1px solid #888;
+}
+.submitButton   {
+    margin-left: 4vw;
+    width: 250px;
+}
+.addDataHeading  {
+    margin-left: 6vw;
 }
