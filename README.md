@@ -1,5 +1,8 @@
 # Graveyard vacancy tracking system
 
+Deployed link https://gyard.herokuapp.com/
+Backend link https://github.com/vh-praneeth/Graveyard_tracker_backend
+
 ## Project details
 
 Because many people die during COVID times. We need to find a burial ground which has a vacancy.
@@ -38,5 +41,3 @@ end users can use data and directly go there. booking is optional \
 generate death certificate pdf with cemetery/govt logo \
 
 button to view location in google map
-if body is burnt, it will occupy place for 24 hours.
-if body is placed into a grave, occupies permanently

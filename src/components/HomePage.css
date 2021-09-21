@@ -2,16 +2,23 @@
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 50%;
+    margin: 25%;
+    margin-top: 0;
+    margin-bottom: 0;
 }
   
 td, th {
-    background-color: white;
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    text-align: center;
 }
-  
+
 tr:nth-child(even) {
     background-color: #dddddd;
+    border: 1px solid white;
+}
+tr:nth-child(even) > td {
+    border: 1px solid white;
 }

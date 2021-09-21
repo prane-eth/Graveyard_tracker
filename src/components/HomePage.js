@@ -41,11 +41,12 @@ export class HomePage extends React.Component {
 
   }
   render()  {
-    // var data = this.state.data.data  // this is an array
+    // var data = this.state.data.data  // this is an arra
     return (
       <div className="App">
         <header className="App-header">
           <h1> Welcome to Graveyard vacancy tracking system </h1>
+          <h5> A useful website during COVID times </h5>
         </header>
         <table>
             <thead>
@@ -57,17 +58,21 @@ export class HomePage extends React.Component {
                     <th> Address </th>
                 </tr>
             </thead>
+            <tbody>
             {
                 this.state.data.data.map((key, index) => {
-                    return <tr key={index}>
-                        <td> {key.name} </td>
-                        <td> {key.pinCode} </td>
-                        <td> {key.occupied} </td>
-                        <td> {key.vacancies} </td>
-                        <td> {key.address} </td>
-                    </tr>
+                    return (
+                        <tr key={index}>
+                            <td> {key.name} </td>
+                            <td> {key.pinCode} </td>
+                            <td> {key.occupied} </td>
+                            <td> {key.vacancies} </td>
+                            <td> {key.address} </td>
+                        </tr>
+                    )
                 })
             }
+            </tbody>
         </table>
       </div>
     );

@@ -11,3 +11,4 @@ have good styled text at top of page (with h1 tag)
 
 add option to search by pin code
 sort by nearest pin code by finding abs(difference) between them
+if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
