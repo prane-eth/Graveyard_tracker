@@ -100,7 +100,7 @@ export class AddDataPage extends React.Component {
             errorMsg.innerText = 'Pin Code should have only 6 digits'
             return
         }
-        console.log('Added data', name, pinCode, occupied, vacancies, address, this.access_token)
+        // console.log('Adding data', name, pinCode, occupied, vacancies, address, this.access_token)
 
         var url = this.backendURL + '/updateData' + '?name=' + name + '&pinCode=' + pinCode +
             '&occupied=' + occupied + '&vacancies=' + vacancies + '&address=' + address +

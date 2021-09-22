@@ -1,19 +1,18 @@
 
-backend:
-
-during signup, ask for ID proof. store it in mongodb
-display json response in the form of table
-
 frontend
+to update existing cemetery without adding new, we should not need all details
 enable to update data every 1 minute in frontend
 add option to SEARCH by pin code
 sort by nearest pin code by finding abs(difference) between them
 if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
     if not found by difference of -3 to +3
-
 have good background color
 have good styled text at top of page (with h1 tag)
 
+backend:
+during signup, ask for ID proof. store it in mongodb instead of server folders
+    search google how to store it
+display json response in the form of table
 add updation to mongoDB
 restore from DB when backend restarts
 

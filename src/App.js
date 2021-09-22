@@ -12,12 +12,11 @@ class LogoutPage extends React.Component {
   // }
   componentDidMount() {
     cookie.remove('access_token', { path: '/' })
-    // console.log("Removed cookie. Logged out")
     // this.sleep(500)
   }
   render() {
     window.location.href = "/" 
-    return <p> Logging out... </p>
+    return <p className="loggingOut"> Logging out... </p>
   }
 }
 
