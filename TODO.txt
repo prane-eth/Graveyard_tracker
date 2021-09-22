@@ -2,7 +2,7 @@
 frontend
 to update existing cemetery without adding new, we should not need all details
 enable to update data every 1 minute in frontend
-add option to SEARCH by pin code
+add option to SEARCH by pin code or city name
 sort by nearest pin code by finding abs(difference) between them
 if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
     if not found by difference of -3 to +3

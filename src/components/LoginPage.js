@@ -113,8 +113,8 @@ export class AddDataPage extends React.Component {
             errorMsg.innerText = res.error
             return
         }
-        errorMsg.style = 'color: green'
         if (res.status) {
+            errorMsg.style = 'color: green'
             errorMsg.innerText = res.status
 
             // clear all entered values
@@ -123,8 +123,8 @@ export class AddDataPage extends React.Component {
             document.getElementById('occupied').innerText = ''
             document.getElementById('vacancies').innerText = ''
             document.getElementById('address').innerText = ''
-            errorMsg.innerText = ''
-        }else
+            window.location.href = '/'
+        } else
             errorMsg.innerText = 'unknown error'
     }
     render()    {
