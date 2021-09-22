@@ -59,6 +59,7 @@ export class LoginPage extends React.Component {
             return <Redirect to="/addData" />
         return (
             <div className="loginPage">
+                <h2> Login here to update the data </h2>
                 <input type="email" defaultValue="dummy@gmail.com" placeholder="Email" id="email"/>
                 <br />
                 <input type="password" defaultValue="dummy123" placeholder="Password" id="password"/>
