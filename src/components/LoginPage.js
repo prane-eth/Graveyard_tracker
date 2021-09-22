@@ -22,13 +22,17 @@ export class LoginPage extends React.Component {
         let url = this.backendURL + '/login?email=' + email + '&password=' + password
         let res = await axios.get(url)
         res = res.data
-        if (res.error)
-            return 'Unable to login with that credentials'
-        else if (res.access_token) {
-            var access_token = res.access_token
-            cookie.save('access_token', access_token, { path: '/' })
+        var responseText = document.getElementById('responseText')
+        if (res.error) {
+            responseText.style = 'color: red'
+            responseText.innerText = res.error
+        } else if (res.access_token) {
+            responseText.style = 'color: green'
+            responseText.innerText = res.status
+            this.access_token = res.access_token
+            cookie.save('access_token', this.access_token, { path: '/' })
             window.location.href = "/addData"
-            return access_token
+            return this.access_token
         }
     }
     signup = async () => {
@@ -45,7 +49,6 @@ export class LoginPage extends React.Component {
             responseText.style = 'color: red'
             responseText.innerText = res.error
         } else if (res.status == 'success') {
-            // window.location.href = "/login"  // redirect to same page to login
             responseText.style = 'color: green'
             responseText.innerText = res.status
         }
@@ -86,41 +89,50 @@ export class AddDataPage extends React.Component {
         var occupied = document.getElementById('occupied').value
         var vacancies = document.getElementById('vacancies').value
         var address = document.getElementById('address').value
-        var msgDiv = document.getElementById('errorMsg')
+        var errorMsg = document.getElementById('errorMsg')
         if (!(name && pinCode && occupied && vacancies && address)) {  // any empty value
-            msgDiv.style = 'color: red'
-            msgDiv.innerText = 'Please enter all the values'
+            errorMsg.style = 'color: red'
+            errorMsg.innerText = 'Please enter all the values'
             return
         }
         if (""+pinCode.length != 6)  {
-            msgDiv.style = 'color: red'
-            msgDiv.innerText = 'Pin Code should have only 6 digits'
+            errorMsg.style = 'color: red'
+            errorMsg.innerText = 'Pin Code should have only 6 digits'
             return
         }
-        console.log(name, pinCode, occupied, vacancies, address)
+        console.log('Added data', name, pinCode, occupied, vacancies, address, this.access_token)
 
         var url = this.backendURL + '/updateData' + '?name=' + name + '&pinCode=' + pinCode +
-            '&occupied=' + occupied + '&vacancies=' + vacancies + '&address=' + address
+            '&occupied=' + occupied + '&vacancies=' + vacancies + '&address=' + address +
+            '&access_token=' + this.access_token
         var res = await axios.get(url)
         console.log(url)
         res = res.data
         if (res.error) {
-            msgDiv.style = 'color: red'
-            msgDiv.innerText = res.error
+            errorMsg.style = 'color: red'
+            errorMsg.innerText = res.error
             return
         }
-        msgDiv.style = 'color: green'
-        if (res.status)
-            msgDiv.innerText = res.status
-        else
-            msgDiv.innerText = 'unknown error'
+        errorMsg.style = 'color: green'
+        if (res.status) {
+            errorMsg.innerText = res.status
+
+            // clear all entered values
+            document.getElementById('name').innerText = ''
+            document.getElementById('pinCode').innerText = ''
+            document.getElementById('occupied').innerText = ''
+            document.getElementById('vacancies').innerText = ''
+            document.getElementById('address').innerText = ''
+            errorMsg.innerText = ''
+        }else
+            errorMsg.innerText = 'unknown error'
     }
     render()    {
-        let access_token = cookie.load('access_token')
-        if (!access_token)
+        this.access_token = cookie.load('access_token')
+        if (!this.access_token)
             return <Redirect to="/login" />
         return (<div className="addDataPage">
-            <h2 className="addDataHeading"> Add data </h2>
+            <h2 className="addDataHeading"> Update data </h2>
             Name: <input type="text" placeholder="Name" id="name"/> <br />
             Pin Code:  <input type="number" placeholder="Pin" id="pinCode"/> <br />
             Occupied:  <input type="number" placeholder="Occupied" id="occupied"/> <br />
@@ -130,7 +142,7 @@ export class AddDataPage extends React.Component {
                 onClick={() => {this.submitValues()}}/>
             <input type="button" value="Logout" className="submitButton" 
                 onClick={() => { window.location.href = '/logout'}}/>
-            <input type="button" value="Home" className="submitButton"
+            <input type="button" value="🏠 Home" className="submitButton"
                 onClick={() => { window.location.href = '/' }}/>
             <p className="errorMsgClass" id="errorMsg"></p>
         </div>)

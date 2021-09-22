@@ -1,22 +1,20 @@
 
 backend:
 
-create signup and login features
-create default admin account in backend
-after login, generate access token. store in cookie
-
-during signup, ask for ID proof. dont store it
-
+during signup, ask for ID proof. store it in mongodb
 display json response in the form of table
 
-enable to update data every 1 minute
-
-add option to search by pin code
+frontend
+enable to update data every 1 minute in frontend
+add option to SEARCH by pin code
 sort by nearest pin code by finding abs(difference) between them
 if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
+    if not found by difference of -3 to +3
 
 have good background color
-
 have good styled text at top of page (with h1 tag)
 
-in AddDataPage, if name and pin code matches with existing data, update data.
+add updation to mongoDB
+restore from DB when backend restarts
+
+enable option to delete by entering name, pin code

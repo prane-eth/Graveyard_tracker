@@ -3,14 +3,6 @@ import React from 'react'
 import axios from 'axios'
 import './HomePage.css'
 
-var backendURL = ''
-if (window.location.href.includes('localhost'))
-  backendURL = 'http://localhost:5000'
-else
-  backendURL = 'https://gyard-be.herokuapp.com'
-
-// var backendURL = 'https://gyard-be.herokuapp.com'
-
 export class HomePage extends React.Component {
   constructor(props){
     super(props)
