@@ -1,6 +1,16 @@
 
+
+try react frontend, python/PHP backend. complete it
+backend can be hosted on pythonanywhere
+frontend can be on a top frontend hosting site
+add dark mode button. save current dark mode status in cookies
+	automatically enable dark mode during sunset time
+	users should have 3 options - light, dark, auto mode
+
+
 frontend
 to update existing cemetery without adding new, we should not need all details
+add feature, to delete existing cemetery, if entered available as 0 and occupied as 0
 enable to update data every 1 minute in frontend
 add option to SEARCH by pin code or city name
 sort by nearest pin code by finding abs(difference) between them
@@ -17,3 +27,8 @@ add updation to mongoDB
 restore from DB when backend restarts
 
 enable option to delete by entering name, pin code
+
+
+
+add Google map location when entering data
+add button to view Google map location

@@ -28,13 +28,3 @@ The project will be made with the MERN stack. MongoDB for database, ReactJS for 
 ExpressJS and NodeJS for the backend. The interaction between frontend and backend can be
 done with either HTTP APIs or Web Sockets.
 
-
-#### TODO
-useful during covid times. request cemetery or providers for vacancies \
-Hospital staff or people cant travel for many kilometres to search vacancies \
-request required vehicles/things/chairs/meals for religious rituals \
-enable google map link, whatsapp link, phone call button \
-cemetery manager/visitor/govt can add data \
-end users can use data and directly go there. booking is optional \
-generate death certificate pdf with cemetery/govt logo \
-button to view location in google map
