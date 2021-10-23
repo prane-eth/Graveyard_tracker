@@ -93,3 +93,16 @@ input   {
 .addDataHeading  {
     margin-left: 6vw;
 }
+
+
+.refreshBtn {
+    padding-top: 13px;
+    color: rgb( 92,  95,  98);
+}
+.refreshBtn:hover {
+    cursor: pointer;
+}
+.refreshText    {
+    padding-top: 13px;
+    font-size: 17px;
+}

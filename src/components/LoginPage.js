@@ -12,7 +12,6 @@ export class LoginPage extends React.Component {
             this.backendURL = 'http://localhost:5000'
         else
             this.backendURL = 'https://gyard-be.herokuapp.com'
-        // this.backendURL = 'https://gyard-be.herokuapp.com'
     }
     login = async () => {
         var email = document.getElementById('email')
@@ -82,7 +81,6 @@ export class AddDataPage extends React.Component {
             this.backendURL = 'http://localhost:5000'
         else
             this.backendURL = 'https://gyard-be.herokuapp.com'
-        // this.backendURL = 'https://gyard-be.herokuapp.com'
     }
     submitValues = async () => {
         var name = document.getElementById('name').value
@@ -91,7 +89,8 @@ export class AddDataPage extends React.Component {
         var vacancies = document.getElementById('vacancies').value
         var address = document.getElementById('address').value
         var errorMsg = document.getElementById('errorMsg')
-        if (!(name && pinCode && occupied && vacancies && address)) {  // any empty value
+        if (!(name && pinCode )) {  // any empty value
+                    // && occupied && vacancies && address
             errorMsg.style = 'color: red'
             errorMsg.innerText = 'Please enter all the values'
             return

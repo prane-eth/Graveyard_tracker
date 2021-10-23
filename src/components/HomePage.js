@@ -2,6 +2,7 @@
 import React from 'react'
 import axios from 'axios'
 import './HomePage.css'
+import { IoMdRefresh } from 'react-icons/io'
 
 export class HomePage extends React.Component {
   constructor(props){
@@ -16,12 +17,10 @@ export class HomePage extends React.Component {
     ]
     this.state = { data : dummyData || [] }
     
-    this.backendURL = ''
     if (window.location.href.includes('localhost'))
         this.backendURL = 'http://localhost:5000'
     else
         this.backendURL = 'https://gyard-be.herokuapp.com'
-    // this.backendURL = 'https://gyard-be.herokuapp.com'
   }
   getData = async () => {
     var res = await axios.get(this.backendURL + '/getData')
@@ -35,6 +34,16 @@ export class HomePage extends React.Component {
   }
   componentDidMount() {
     this.getData()
+    var sec = 1000  // second in milliseconds
+    if (!this.interval)  {
+        this.interval = setInterval(() => {  // refresh at regular intervals
+            this.getData()
+        }, 30*sec);  // 30 seconds
+    }
+  }
+  componentWillUnmount() {
+      if (this.interval)
+          clearInterval(this.interval)
   }
   render()  {
     // var data = this.state.data.data  // this is an array
@@ -62,7 +71,7 @@ export class HomePage extends React.Component {
                             <td> {key.name} </td>
                             <td> {key.pinCode} </td>
                             <td> {key.occupied} </td>
-                            <td className={key.vacancies<=5 ? 'low-vacancies' : ''}>
+                            <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
                                 {key.vacancies}
                             </td>
                             <td className="address"> {key.address} </td>
@@ -72,6 +81,10 @@ export class HomePage extends React.Component {
             }
             </tbody>
         </table>
+        <span className="refreshText"> Refresh data </span>
+        <span className="refreshBtn" onClick={() => this.getData() }>
+            <IoMdRefresh />
+        </span> <br />
         <input type="button" value="Update data" onClick={() => {
             window.location.href = "/login"
         }} />
