@@ -38,6 +38,7 @@ export class LoginPage extends React.Component {
             // if reqType is login
             if (reqType == 'login') {
                 this.access_token = res.access_token
+                console.log('access_token: ' + this.access_token)
                 cookie.save('access_token', this.access_token, { path: '/' })
                 window.location.href = "/"
                 return this.access_token
@@ -55,9 +56,12 @@ export class LoginPage extends React.Component {
         return result
     }
     render()    {
+        console.log('LoginPage')
         let access_token = cookie.load('access_token')
-        if (access_token)
+        if (access_token)  {
+            console.log('Already logged in')
             return <Redirect to="/" />
+        }
         return (
             <div className="loginPage">
                 <h2> Login here to update the data </h2>

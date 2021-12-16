@@ -6,7 +6,7 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 50%;
-    margin: 25%;
+    margin: 20%;
     margin-top: 0;
     margin-bottom: 0;
     border-radius: 10px;
@@ -84,7 +84,7 @@ input   {
     padding-right: 5vw;
     margin-top: 2vh;
     padding-bottom: 5vh;
-    border: 1px solid #888;
+    /* border: 1px solid #888; */
 }
 .submitButton   {
     margin-left: 4vw;
@@ -158,4 +158,9 @@ input   {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+#bookedTable    {
+    margin-left: 0vw;
+    margin-top: 0vh;
 }

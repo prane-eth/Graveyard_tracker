@@ -1,7 +1,8 @@
 
 
-allow to display booked slots - fix error
+host backend with other account. get concurrent builds after commit
 allow to cancel booked slot
+	show X button on booked slots list
 	generate ticket in html, friendly to print to pdf
 allow only authorized people to update cemetery data
 	if person is not authorized, remove Updata Data button in frontend

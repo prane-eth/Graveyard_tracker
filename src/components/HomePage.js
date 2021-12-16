@@ -103,9 +103,23 @@ export class HomePage extends React.Component {
     let access_token = cookie.load('access_token')
     if (access_token)
         return (
+            <div>
             <input type="button" value="Logout" onClick={() => {
                 window.location.href = "/logout"
             }} />
+            <input type="button" value="Book a slot" onClick={() => {
+                window.location.href = "/bookSlot"
+            }} />
+            <input type="button" value="Get booked slots" onClick={() => {
+                window.location.href = "/getBookedSlots"
+            }} />
+            <input type="button" value="Cancel a booked slot" onClick={() => {
+                window.location.href = "/cancelSlot"
+            }} />
+            <input type="button" value="Update data" onClick={() => {
+                window.location.href = "/addData"
+            }} />
+            </div>
         )
     else
         return (
@@ -115,6 +129,19 @@ export class HomePage extends React.Component {
         )
   }
   componentDidMount() {
+    this.access_token = cookie.load('access_token')
+    console.log('HomePage mounted')
+    console.log(this.access_token)
+    if (this.access_token) {
+        var url = this.backendURL + '/isTokenValid?access_token=' + this.access_token
+        axios.get(url).then(res => {
+            if (res.data.error) {
+                console.log('error: ' + res.data.error)
+                cookie.remove('access_token', { path: '/' })
+                window.location.href = "/"
+            }
+        })
+    }
     this.getData()
     var sec = 1000  // second in milliseconds
     if (!this.interval)  {
@@ -128,6 +155,10 @@ export class HomePage extends React.Component {
         clearInterval(this.interval)
   }
   render()  {
+    // if (!this.access_token){
+    //     console.log('No access token')
+    //     return <Redirect to="/login" />
+    // }
     return (
         <div>
         <div className="navbar">
@@ -185,18 +216,6 @@ export class HomePage extends React.Component {
         <div id="nearestPinCode"> </div>
         <br />
         {this.getLoginButton()}
-        <input type="button" value="Book a slot" onClick={() => {
-            window.location.href = "/bookSlot"
-        }} />
-        <input type="button" value="Get booked slots" onClick={() => {
-            window.location.href = "/getBookedSlots"
-        }} />
-        <input type="button" value="Cancel a booked slot" onClick={() => {
-            window.location.href = "/cancelSlot"
-        }} />
-        <input type="button" value="Update data" onClick={() => {
-            window.location.href = "/addData"
-        }} />
         <div className="emptySpace">  </div>
       </div>
       </div>
@@ -206,12 +225,13 @@ export class HomePage extends React.Component {
 
 
 export class GetBookedSlots extends React.Component {
-    constructor(props){
-      super(props)
-      if (window.location.href.includes('localhost'))
-          this.backendURL = 'http://localhost:5000'
-      else
-          this.backendURL = 'https://gyard-be.herokuapp.com'
+    constructor(props)  {
+        super(props)
+        if (window.location.href.includes('localhost'))
+            this.backendURL = 'http://localhost:5000'
+        else
+            this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.state = { bookedSlots: [] }
     }
     getBookedSlots = async (access_token) => {
         var url = this.backendURL + '/getBookedSlots?access_token=' + access_token
@@ -224,30 +244,31 @@ export class GetBookedSlots extends React.Component {
         else if (res.error)
             msgDiv.innerHTML = 'Error: ' + res.error
         else
-            this.booked = res
+            this.setState({ bookedSlots: res.slots })
         return {}
     }
-    componentDidMount() {
-        console.log('GetBookedSlots')
+    componentWillMount() {
         this.access_token = cookie.load('access_token')
         console.log('access_token: ' + this.access_token)
         if (!this.access_token)  {
             console.log('No access token')
-            window.location.href = "/login"
+            // window.location.href = "/login"
         }
     }
-    componentDidUpdate() {
+    componentDidMount() {
         this.getBookedSlots(this.access_token)
     }
     render()    {
+        this.access_token = cookie.load('access_token')
         if (!this.access_token){
             console.log('No access token')
-            return <Redirect to="/login" />
+            return <div />
+            // return <Redirect to="/login" />
         }
         return (<div className="addDataPage">
             <h2 className="addDataHeading"> Booked slots </h2>
             {/* display booked using a table */}
-            <table>
+            <table id="bookedTable">
                 <thead>
                     <tr>
                         <th> Person Name </th>
@@ -257,7 +278,7 @@ export class GetBookedSlots extends React.Component {
                 </thead>
                 <tbody>
                 {
-                    this.booked.map((key, index) => {
+                    this.state.bookedSlots.map((key, index) => {
                         return (
                             <tr key={index}>
                                 <td> {key.personName} </td>
