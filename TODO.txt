@@ -1,44 +1,49 @@
 
 
-// try react frontend, python/PHP backend. complete it
-// backend can be hosted on pythonanywhere
-// frontend can be on a top frontend hosting site
-// add dark mode button. save current dark mode status in cookies
-//	automatically enable dark mode during sunset time
-//	users should have 3 options - light, dark, auto mode
+allow to display booked slots - fix error
+allow to cancel booked slot
+	generate ticket in html, friendly to print to pdf
+allow only authorized people to update cemetery data
+	if person is not authorized, remove Updata Data button in frontend
 
+Vacant slots should be total - Occupied
 
-frontend
-to update existing cemetery without adding new, we should not need all details
-add feature, to delete existing cemetery, if entered available as 0 and occupied as 0
-enable to update data every 1 minute in frontend
-add option to SEARCH by pin code or city name
-sort by nearest pin code by finding abs(difference) between them
-if not found by pin code, show no graveyard is found in your area. enter pincode of nearest area
-    if not found by difference of -3 to +3
-have good background color
-have good styled text at top of page (with h1 tag)
-display when data is last refreshed. show refresh button near it
-
-backend:
 during signup, ask for ID proof. store it in mongodb instead of server folders
     search google how to store it
 display json response in the form of table
-add updation to mongoDB
-restore from DB when backend restarts
+add updation to mongoDB/MySql
+restore from DB when backend code starts
 
+when user modifies data, change updatedBy value
 enable option to delete by entering name, pin code
 
-
-
-add Google map location when entering data
+add Google map location when entering data - optional column
 add button to view Google map location
+	if no google map link present in data, return link to search map
+	https://www.google.com/maps/search/name + ', ' + address/
 
 
-send API call to /logout. deactivate access token
+additional:
+
+optimize page if window is shrinked to left
+	optimize for mobile
+make sure password is secure
+hash password in frontend and also in backend
+
+enter sample data from real world
+have good looking pages
+2-step verification during login
+	no 2-step verification if login from same IP address as last login/signup
+generate random password during signup
+option to reset password
+use IP address or location permission to access location
+prevent all possible cyber attacks
 
 
 
+// try react frontend, python/PHP backend. complete it
+// frontend can be on a top frontend hosting site
+// add dark mode button. save current dark mode status in cookies
 
 
 

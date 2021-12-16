@@ -2,20 +2,33 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import cookie from 'react-cookies'
+import axios from 'axios'
 import './App.css'
-import { HomePage } from './components/HomePage.js'
-import { LoginPage, AddDataPage } from './components/LoginPage.js'
+import { HomePage, GetBookedSlots } from './components/HomePage.js'
+import { LoginPage } from './components/LoginPage.js'
+import { AddDataPage } from './components/AddDataPage.js'
+import { BookSlot, CancelSlot } from './components/BookSlot.js'
 
 class LogoutPage extends React.Component {
+  constructor(props)  {
+      super(props)
+      this.backendURL = ''
+      if (window.location.href.includes('localhost'))
+          this.backendURL = 'http://localhost:5000'
+      else
+          this.backendURL = 'https://gyard-be.herokuapp.com'
+  }
   // sleep = (milliseconds) => {
   //     return new Promise(resolve => setTimeout(resolve, milliseconds))
   // }
   componentDidMount() {
+    var access_token = cookie.load('access_token', { path: '/' })
+    let url = this.backendURL + '/logout?access_token=' + access_token
+    axios.get(url)
     cookie.remove('access_token', { path: '/' })
-    // this.sleep(500)
   }
   render() {
-    window.location.href = "/" 
+    window.location.href = "/"
     return <p className="loggingOut"> Logging out... </p>
   }
 }
@@ -33,6 +46,15 @@ function App()  {
           </Route>
           <Route path="/addData">
             <AddDataPage />
+          </Route>
+          <Route path="/bookSlot">
+            <BookSlot />
+          </Route>
+          <Route path="/getBookedSlots">
+            <GetBookedSlots />
+          </Route>
+          <Route path="/cancelSlot">
+            <CancelSlot />
           </Route>
           <Route path="/logout">
             <LogoutPage />
