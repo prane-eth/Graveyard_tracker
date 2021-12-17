@@ -5,6 +5,8 @@ import './HomePage.css'
 import { FiRefreshCw } from 'react-icons/fi'
 import { FaSearchLocation } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
+import { GiCancel } from 'react-icons/gi'
+import { GrTicket } from 'react-icons/gr'
 
 
 export class HomePage extends React.Component {
@@ -240,31 +242,58 @@ export class GetBookedSlots extends React.Component {
         var msgDiv = document.getElementById('errorMsg')
         msgDiv.style.color = 'red'
         if (!res)
-            msgDiv.innerHTML = 'No response from server'
+            msgDiv.innerHTML = 'Error: ' + 'No response from server'
         else if (res.error)
             msgDiv.innerHTML = 'Error: ' + res.error
-        else
+        else {
+            msgDiv.style.color = 'green'
             this.setState({ bookedSlots: res.slots })
-        return {}
+        }
+        // console.log(url)
+        // console.log(res)
     }
     componentWillMount() {
         this.access_token = cookie.load('access_token')
         console.log('access_token: ' + this.access_token)
         if (!this.access_token)  {
             console.log('No access token')
-            // window.location.href = "/login"
+            window.location.href = "/login"
         }
+        this.getBookedSlots(this.access_token)
     }
-    componentDidMount() {
+    timestampToLocalDateTime = (timestamp) => {
+        var date = new Date(timestamp)
+        var localDateTime = date.toLocaleString()
+        return localDateTime
+    }
+    cancelSlot = async (personName) => {
+        var url = this.backendURL + '/cancelSlot?personName=' + personName
+            + '&access_token=' + this.access_token
+        var res = await axios.get(url)
+        res = res.data
+
+        var msgDiv = document.getElementById('errorMsg')
+        msgDiv.style = 'color: red'
+        if (!res)
+            msgDiv.innerHTML = 'Error: ' + 'No response from server'
+        else if (res.error)
+            msgDiv.innerHTML = 'Error: ' + res.error
+        else if (res.status) {
+            msgDiv.style = 'color: green'
+            msgDiv.innerHTML = res.status
+        } else
+            msgDiv.innerHTML = 'Error: ' + 'Unknown error'
+        console.log(url)
+        console.log(res)
         this.getBookedSlots(this.access_token)
     }
     render()    {
         this.access_token = cookie.load('access_token')
         if (!this.access_token){
             console.log('No access token')
-            return <div />
-            // return <Redirect to="/login" />
+            return <Redirect to="/login" />
         }
+        console.log(this.state.bookedSlots)
         return (<div className="addDataPage">
             <h2 className="addDataHeading"> Booked slots </h2>
             {/* display booked using a table */}
@@ -274,6 +303,9 @@ export class GetBookedSlots extends React.Component {
                         <th> Person Name </th>
                         <th> Cemetery Name </th>
                         <th> Pin Code </th>
+                        <th> Booking time </th>
+                        <th> Get ticket </th> 
+                        <th> Cancel slot </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -284,6 +316,19 @@ export class GetBookedSlots extends React.Component {
                                 <td> {key.personName} </td>
                                 <td> {key.name} </td>
                                 <td> {key.pinCode} </td>
+                                <td> {this.timestampToLocalDateTime(key.timestamp)} </td>
+                                <td> <GrTicket className="ticketBtn" onClick={() => {
+                                    cookie.save('personName', key.personName, { path: '/' })
+                                    cookie.save('name', key.name, { path: '/' })
+                                    cookie.save('pinCode', key.pinCode, { path: '/' })
+                                    cookie.save('timestamp', this.timestampToLocalDateTime(key.timestamp), { path: '/' })
+                                    window.location.href = '/getTicket'
+                                }} /> </td>
+                                <td> <GiCancel className="cancelBtn" onClick={() => {
+                                    // ask confirmation
+                                    if (window.confirm('Are you sure you want to cancel this slot?'))
+                                        this.cancelSlot(key.personName)
+                                }} /> </td>
                             </tr>
                         )
                     })
@@ -297,3 +342,58 @@ export class GetBookedSlots extends React.Component {
         </div>)
     }
 }
+
+
+export class GetTicket extends React.Component {
+    constructor(props)  {
+        super(props)
+        if (window.location.href.includes('localhost'))
+            this.backendURL = 'http://localhost:5000'
+        else
+            this.backendURL = 'https://gyard-be.herokuapp.com'
+    }
+    render()    {
+        this.access_token = cookie.load('access_token')
+        if (!this.access_token){
+            console.log('No access token')
+            return <Redirect to="/login" />
+        }
+        
+        var personName = cookie.load('personName', { path: '/' })
+        var name = cookie.load('name', { path: '/' })
+        var pinCode = cookie.load('pinCode', { path: '/' })
+        var localDateTime = cookie.load('timestamp', { path: '/' })
+
+        return (<div className="addDataPage">
+            <div className="emptySpace" />
+            <h2 className="addDataHeading"> Ticket </h2>
+            <div className="ticketContainer">
+                <div className="ticket">
+                    <div className="ticketBody">
+                        <div className="ticketContent">
+                            <p>
+                                <span className="ticketLabel"> Person Name: </span>
+                                <span className="ticketValue"> {personName} </span>
+                            </p>
+                            <p>
+                                <span className="ticketLabel"> Graveyard Name: </span>
+                                <span className="ticketValue"> {name} </span>
+                            </p>
+                            <p>
+                                <span className="ticketLabel"> Pin Code: </span>
+                                <span className="ticketValue"> {pinCode} </span>
+                            </p>
+                            <p>
+                                <span className="ticketLabel"> Booking time: </span>
+                                <span className="ticketValue"> {localDateTime} </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="button" value="Home" className="submitButton"
+                onClick={() => { window.location.href = '/' }}/>
+        </div>)
+    }
+}
+            

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import cookie from 'react-cookies'
 import axios from 'axios'
 import './App.css'
-import { HomePage, GetBookedSlots } from './components/HomePage.js'
+import { HomePage, GetBookedSlots, GetTicket } from './components/HomePage.js'
 import { LoginPage } from './components/LoginPage.js'
 import { AddDataPage } from './components/AddDataPage.js'
 import { BookSlot, CancelSlot } from './components/BookSlot.js'
@@ -52,6 +52,9 @@ function App()  {
           </Route>
           <Route path="/getBookedSlots">
             <GetBookedSlots />
+          </Route>
+          <Route path="/getTicket">
+            <GetTicket />
           </Route>
           <Route path="/cancelSlot">
             <CancelSlot />

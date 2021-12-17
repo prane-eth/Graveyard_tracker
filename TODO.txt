@@ -1,13 +1,18 @@
 
 
-host backend with other account. get concurrent builds after commit
-allow to cancel booked slot
-	show X button on booked slots list
-	generate ticket in html, friendly to print to pdf
+
+
+add Google map location when entering data - optional column
+add button to view Google map location
+	if no google map link present in data, return link to search map
+	https://www.google.com/maps/search/name + ', ' + address/
+
+
+Vacant slots should be total - Occupied
+
 allow only authorized people to update cemetery data
 	if person is not authorized, remove Updata Data button in frontend
 
-Vacant slots should be total - Occupied
 
 during signup, ask for ID proof. store it in mongodb instead of server folders
     search google how to store it
@@ -16,17 +21,14 @@ add updation to mongoDB/MySql
 restore from DB when backend code starts
 
 when user modifies data, change updatedBy value
-enable option to delete by entering name, pin code
+entered data should have no "&"
+	or else url-decode string before adding to url params
 
-add Google map location when entering data - optional column
-add button to view Google map location
-	if no google map link present in data, return link to search map
-	https://www.google.com/maps/search/name + ', ' + address/
 
 
 additional:
 
-optimize page if window is shrinked to left
+optimize page/table css if window is shrinked to left
 	optimize for mobile
 make sure password is secure
 hash password in frontend and also in backend
