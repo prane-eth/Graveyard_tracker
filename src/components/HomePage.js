@@ -7,6 +7,7 @@ import { FaSearchLocation } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { GrTicket } from 'react-icons/gr'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 
 export class HomePage extends React.Component {
@@ -184,6 +185,7 @@ export class HomePage extends React.Component {
                     <th> Pin Code </th>
                     <th> Occupied </th>
                     <th> Vacancies </th>
+                    <th> Map location </th>
                 </tr>
             </thead>
             <tbody>
@@ -197,6 +199,17 @@ export class HomePage extends React.Component {
                             <td> {key.occupied} </td>
                             <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
                                 {key.vacancies}
+                            </td>
+                            <td>
+                                <FaMapMarkerAlt class="icon"
+                                    style={{cursor: 'pointer', color: 'red'}}
+                                    onClick={() => {
+                                        if (!key.url)
+                                            key.url = 'https://www.google.com/maps/search/'
+                                                + key.name + ', ' + key.address
+                                        window.open(key.url, '_blank')
+                                    }}
+                                />
                             </td>
                         </tr>
                     )

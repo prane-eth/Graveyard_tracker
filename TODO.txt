@@ -1,12 +1,9 @@
 
 
 
+enable cursor: pointer for all buttons
 
 add Google map location when entering data - optional column
-add button to view Google map location
-	if no google map link present in data, return link to search map
-	https://www.google.com/maps/search/name + ', ' + address/
-
 
 Vacant slots should be total - Occupied
 
@@ -41,6 +38,9 @@ generate random password during signup
 option to reset password
 use IP address or location permission to access location
 prevent all possible cyber attacks
+
+enable country column in table
+filter data by country
 
 
 
