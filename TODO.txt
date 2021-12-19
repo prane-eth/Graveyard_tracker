@@ -1,7 +1,7 @@
 
 
 
-test each and everything
+test and fix errors
 	register, login, logout
 	add, update, delete data
 	book slot, cancel slot
@@ -11,11 +11,15 @@ test each and everything
 tables: 
 	email_pass graveyard_data booked_slots email_slots
 
-restore from DB when backend code starts
+validate email in frontend before signup & login
+enable secure password during signup
 
 prepare final document
 add option to change password
 	update to DB
+add account icon on navbar
+	click that to display menu
+		show booked slots, change password, logout
 
 entered data should have no "&"
 	or else url-decode string before adding to url params
