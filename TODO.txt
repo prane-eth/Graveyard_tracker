@@ -1,29 +1,32 @@
 
 
 
-enable cursor: pointer for all buttons
+test each and everything
+	register, login, logout
+	add, update, delete data
+	book slot, cancel slot
+	check vacancies in every step
+	check whether local variable == DB variable after updation
 
-add Google map location when entering data - optional column
+tables: 
+	email_pass graveyard_data booked_slots email_slots
 
-Vacant slots should be total - Occupied
-
-allow only authorized people to update cemetery data
-	if person is not authorized, remove Updata Data button in frontend
-
-
-during signup, ask for ID proof. store it in mongodb instead of server folders
-    search google how to store it
-display json response in the form of table
-add updation to mongoDB/MySql
 restore from DB when backend code starts
 
-when user modifies data, change updatedBy value
+prepare final document
+add option to change password
+	update to DB
+
 entered data should have no "&"
 	or else url-decode string before adding to url params
 
+add href to buttons
+	<a class="inputBtn" href="..."
 
 
 additional:
+
+enable button to clear input values
 
 optimize page/table css if window is shrinked to left
 	optimize for mobile
@@ -41,6 +44,10 @@ prevent all possible cyber attacks
 
 enable country column in table
 filter data by country
+
+
+allow only authorized people to update cemetery data
+	if person is not authorized, remove Updata Data button in frontend
 
 
 

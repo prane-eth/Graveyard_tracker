@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import cookie from 'react-cookies'
@@ -6,7 +5,7 @@ import axios from 'axios'
 import './App.css'
 import { HomePage, GetBookedSlots, GetTicket } from './components/HomePage.js'
 import { LoginPage } from './components/LoginPage.js'
-import { AddDataPage } from './components/AddDataPage.js'
+import { UpdateData } from './components/UpdateData.js'
 import { BookSlot, CancelSlot } from './components/BookSlot.js'
 
 class LogoutPage extends React.Component {
@@ -18,9 +17,6 @@ class LogoutPage extends React.Component {
       else
           this.backendURL = 'https://gyard-be.herokuapp.com'
   }
-  // sleep = (milliseconds) => {
-  //     return new Promise(resolve => setTimeout(resolve, milliseconds))
-  // }
   componentDidMount() {
     var access_token = cookie.load('access_token', { path: '/' })
     let url = this.backendURL + '/logout?access_token=' + access_token
@@ -45,7 +41,7 @@ function App()  {
             <LoginPage />
           </Route>
           <Route path="/addData">
-            <AddDataPage />
+            <UpdateData />
           </Route>
           <Route path="/bookSlot">
             <BookSlot />
@@ -69,5 +65,3 @@ function App()  {
 }
 
 export default App;
-
-// https://gpstrackit.com/blog/cemeteries-embrace-gps-tracking-to-locate-graves-for-visitors/

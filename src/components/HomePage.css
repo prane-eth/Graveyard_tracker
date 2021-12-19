@@ -72,6 +72,10 @@ input   {
     /* background-color: green;
     color: orange; */
 }
+input[type=button], input[type=submit]  {
+    cursor: pointer;
+}
+
 .loginPage {
     margin-left: 30vw;
     margin-top: 30vh;

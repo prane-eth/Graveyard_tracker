@@ -4,7 +4,7 @@ import cookie from 'react-cookies'
 import './HomePage.css'
 import { FiRefreshCw } from 'react-icons/fi'
 import { FaSearchLocation } from 'react-icons/fa'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { GrTicket } from 'react-icons/gr'
 import { FaMapMarkerAlt } from 'react-icons/fa'
@@ -26,7 +26,7 @@ export class HomePage extends React.Component {
         this.backendURL = 'https://gyard-be.herokuapp.com'
     this.state.displayData = []
   }
-  updateData = () => {
+  updateTable = () => {
     this.state.displayData = []
     var searchText = document.getElementById('searchBox')
     if (!searchText)
@@ -64,7 +64,7 @@ export class HomePage extends React.Component {
         console.log('error: ' + res.error)
     else
         this.setState({ data : res })
-    this.updateData()
+    this.updateTable()
   }
   findNearest = () => {
     var pinCode = document.getElementById('nearestBox')
@@ -78,14 +78,14 @@ export class HomePage extends React.Component {
         result = " "
         document.getElementById('searchBox').value = ""
         document.getElementById('nearestPinCode').innerHTML = ""
-        this.updateData()
+        this.updateTable()
         return
     }
     if (pinCode.length > 6)    {
         result = " "
         document.getElementById('searchBox').value = ""
         document.getElementById('nearestPinCode').innerHTML = "Pin Code should contain only 6 digits"
-        this.updateData()
+        this.updateTable()
         return
     }
     while (pinCode.length < 6)
@@ -100,7 +100,7 @@ export class HomePage extends React.Component {
         result = 'Nearest pin code is ' + nearest.pinCode + ' at ' + nearest.address
     document.getElementById('nearestPinCode').innerHTML = result
     document.getElementById('searchBox').value = nearest.pinCode
-    this.updateData()
+    this.updateTable()
   }
   getLoginButton = () => {
     let access_token = cookie.load('access_token')
@@ -158,10 +158,6 @@ export class HomePage extends React.Component {
         clearInterval(this.interval)
   }
   render()  {
-    // if (!this.access_token){
-    //     console.log('No access token')
-    //     return <Redirect to="/login" />
-    // }
     return (
         <div>
         <div className="navbar">
@@ -175,7 +171,7 @@ export class HomePage extends React.Component {
         </div>
         <div className="App">
         <input id="searchBox" type="search" className="inputBox"
-            placeholder="Search for graveyard" onInput={this.updateData} />
+            placeholder="Search for graveyard" onInput={this.updateTable} />
         <FaSearchLocation class="icon" />
         <table>
             <thead>
@@ -191,6 +187,9 @@ export class HomePage extends React.Component {
             <tbody>
             {
                 this.state.displayData.map((key, index) => {
+                    if (!key.mapLink)
+                        key.mapLink = 'https://www.google.com/maps/search/'
+                            + key.name + ', ' + key.address
                     return (
                         <tr key={index}>
                             <td> {key.name} </td>
@@ -201,15 +200,11 @@ export class HomePage extends React.Component {
                                 {key.vacancies}
                             </td>
                             <td>
-                                <FaMapMarkerAlt class="icon"
-                                    style={{cursor: 'pointer', color: 'red'}}
-                                    onClick={() => {
-                                        if (!key.url)
-                                            key.url = 'https://www.google.com/maps/search/'
-                                                + key.name + ', ' + key.address
-                                        window.open(key.url, '_blank')
-                                    }}
-                                />
+                                <a href={key.mapLink}>
+                                    <FaMapMarkerAlt class="icon"
+                                        style={{cursor: 'pointer', color: 'red'}}
+                                    />
+                                </a>
                             </td>
                         </tr>
                     )
