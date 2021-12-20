@@ -2,6 +2,7 @@ import React from 'react'
 import cookie from 'react-cookies'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import { NavBar } from './NavBar'
 
 
 export class UpdateData extends React.Component {
@@ -84,19 +85,22 @@ export class UpdateData extends React.Component {
             })
     }
     render()    {
-        return (<div className="addDataPage">
-            <h2 className="addDataHeading"> Update data </h2>
-            Name: <input type="text" placeholder="Name" id="name"/> <br />
-            Pin Code:  <input type="number" placeholder="Pin" id="pinCode"/> <br />
-            Occupied:  <input type="number" placeholder="Occupied" id="occupied"/> <br />
-            Vacancies:  <input type="number" placeholder="Vacancies" id="vacancies"/> <br />
-            Address:  <input type="text" placeholder="Address" id="address"/> <br />
-            Map link:  <input type="text" placeholder="Map link" id="mapLink"/> <br />
-            <input type="button" value="Submit" className="submitButton" 
-                onClick={() => {this.submitValues()}}/>
-            <input type="button" value="🏠 Home" className="submitButton"
-                onClick={() => { window.location.href = '/' }}/>
-            <p className="errorMsgClass" id="errorMsg"></p>
-        </div>)
+        return (
+            <div>
+                <NavBar />
+                <div className="addDataPage">
+                    <h2 className="addDataHeading"> Update data </h2>
+                    Name: <input type="text" placeholder="Name" id="name"/> <br />
+                    Pin Code:  <input type="number" placeholder="Pin" id="pinCode"/> <br />
+                    Occupied:  <input type="number" placeholder="Occupied" id="occupied"/> <br />
+                    Vacancies:  <input type="number" placeholder="Vacancies" id="vacancies"/> <br />
+                    Address:  <input type="text" placeholder="Address" id="address"/> <br />
+                    Map link:  <input type="text" placeholder="Map link" id="mapLink"/> <br />
+                    <input type="button" value="Submit" className="submitButton" 
+                        onClick={this.submitValues}/>
+                    <p className="errorMsgClass" id="errorMsg"></p>
+                </div>
+            </div>
+        )
     }
 }

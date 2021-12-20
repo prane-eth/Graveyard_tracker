@@ -1,6 +1,8 @@
 
 
-add red * before mandatory fields
+
+map icon is linking to email
+	delete graveyard data & add again
 when booking/checking, consider lower case input too
 
 DB has duplicate values
@@ -8,26 +10,13 @@ DB has duplicate values
 	do same for all tables
 		db.table_name.createIndex({name:1, pinCode:1},{unique:true});
 
-validate email in frontend before signup & login
-	also in backend
-enable secure password during signup
 
 prepare final document
-add option to change password
-	update to DB
-add account icon on navbar
-	click that to display menu
-		show booked slots, change password, logout
-
-entered data should have no "&"
-	or else url-decode string before adding to url params
-
-add href to buttons
-	<a class="inputBtn" href="..."
 
 
 additional:
 
+add red * before mandatory fields
 enable button to clear input values
 
 optimize page/table css if window is shrinked to left

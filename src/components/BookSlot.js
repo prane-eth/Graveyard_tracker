@@ -2,8 +2,9 @@
 import React from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies'
-import './HomePage.css'
 import { Redirect } from 'react-router-dom'
+import './HomePage.css'
+import { NavBar } from './NavBar'
 
 export class BookSlot extends React.Component {
     constructor(props){
@@ -75,16 +76,19 @@ export class BookSlot extends React.Component {
         this.access_token = cookie.load('access_token')
         if (!this.access_token)
             return <Redirect to="/login" />
-        return (<div className="addDataPage">
-            <h2 className="addDataHeading"> Book slot </h2>
-            Dead person's name: <input type="text" placeholder="Person Name" id="personName"/> <br />
-            Cemetery Name: <input type="text" placeholder="Cemetery Name" id="name"/> <br />
-            Pin Code:  <input type="number" placeholder="Pin" id="pinCode"/> <br />
-            <input type="button" value="Submit" className="submitButton" 
-                onClick={() => {this.submitValues()}}/>
-            <input type="button" value="🏠 Home" className="submitButton"
-                onClick={() => { window.location.href = '/' }}/>
-            <p className="errorMsgClass" id="errorMsg"></p>
-        </div>)
+        return (
+            <div>
+                <NavBar />
+                <div className="addDataPage">
+                    <h2 className="addDataHeading"> Book slot </h2>
+                    Dead person's name: <input type="text" placeholder="Person Name" id="personName"/> <br />
+                    Cemetery Name: <input type="text" placeholder="Cemetery Name" id="name"/> <br />
+                    Pin Code:  <input type="number" placeholder="Pin" id="pinCode"/> <br />
+                    <input type="button" value="Submit" className="submitButton" 
+                        onClick={this.submitValues}/>
+                    <p className="errorMsgClass" id="errorMsg"></p>
+                </div>
+            </div>
+        )
     }
 }

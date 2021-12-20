@@ -2,8 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies'
 import './HomePage.css'
+import { NavBar } from './NavBar'
 import { FiRefreshCw } from 'react-icons/fi'
-import { FaSearchLocation } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { GrTicket } from 'react-icons/gr'
@@ -103,46 +103,6 @@ export class HomePage extends React.Component {
     document.getElementById('searchBox').value = nearest.pinCode
     this.updateTable()
   }
-  hideUpdateButton = async () => {
-    var url = this.backendURL + '/isAdmin?access_token=' + this.access_token
-    axios.get(url)
-        .then(res => {
-            console.log(res.data.status)
-            if (res.data.status) {
-                console.log('Admin')
-            } else {
-                var updateBtn = document.getElementById('updateBtn')
-                if (updateBtn)
-                    updateBtn.style.display = 'none'
-            }
-        })
-  }
-  getLoginButton = () => {
-    let access_token = cookie.load('access_token')
-    if (access_token)
-        return (
-            <div>
-                <input type="button" value="Logout" onClick={() => {
-                    window.location.href = "/logout"
-                }} />
-                <input type="button" value="Book a slot" onClick={() => {
-                    window.location.href = "/bookSlot"
-                }} />
-                <input type="button" value="Get booked slots" onClick={() => {
-                    window.location.href = "/getBookedSlots"
-                }} />
-                <input id="updateBtn" type="button" value="Update data" onClick={() => {
-                    window.location.href = "/addData"
-                }} />
-            </div>
-        )
-    else
-        return (
-            <input type="button" value="Login/Register" onClick={() => {
-                window.location.href = "/login"
-            }} />
-        )
-  }
   componentDidMount() {
     this.access_token = cookie.load('access_token')
     console.log('HomePage mounted')
@@ -169,26 +129,12 @@ export class HomePage extends React.Component {
     if (this.interval)
         clearInterval(this.interval)
   }
-  // after rendering
-  componentDidUpdate() {
-    this.hideUpdateButton()
-  }
     render()  {
         return (
             <div>
-            <div className="navbar">
-                <div className="navbar-left">
-                    <header className="App-header">
-                        <div className="nav-text" onClick={() => { window.location.href = '/' }}>
-                            Graveyard vacancy tracking system
-                        </div>
-                    </header>
-                </div>
-            </div>
+            <NavBar searchBox="true" />
             <div className="App">
-            <input id="searchBox" type="search" className="inputBox"
-                placeholder="Search for graveyard" onInput={this.updateTable} />
-            <FaSearchLocation class="icon" />
+            <h2 className="addDataHeading"> Graveyard data </h2>
             <table>
                 <thead>
                     <tr>
@@ -241,7 +187,6 @@ export class HomePage extends React.Component {
             <br />
             <div id="nearestPinCode"> </div>
             <br />
-            {this.getLoginButton()}
             <div className="emptySpace">  </div>
         </div>
         </div>
@@ -318,52 +263,57 @@ export class GetBookedSlots extends React.Component {
             return <Redirect to="/login" />
         }
         console.log(this.state.bookedSlots)
-        return (<div className="addDataPage">
-            <h2 className="addDataHeading"> Booked slots </h2>
-            {/* display booked using a table */}
-            <table id="bookedTable">
-                <thead>
-                    <tr>
-                        <th> Person Name </th>
-                        <th> Cemetery Name </th>
-                        <th> Pin Code </th>
-                        <th> Booking time </th>
-                        <th> Get ticket </th> 
-                        <th> Cancel slot </th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    this.state.bookedSlots.map((key, index) => {
-                        return (
-                            <tr key={index}>
-                                <td> {key.personName} </td>
-                                <td> {key.name} </td>
-                                <td> {key.pinCode} </td>
-                                <td> {this.timestampToLocalDateTime(key.timestamp)} </td>
-                                <td> <GrTicket className="clickIcon" onClick={() => {
-                                    cookie.save('personName', key.personName, { path: '/' })
-                                    cookie.save('name', key.name, { path: '/' })
-                                    cookie.save('pinCode', key.pinCode, { path: '/' })
-                                    cookie.save('timestamp', this.timestampToLocalDateTime(key.timestamp), { path: '/' })
-                                    window.location.href = '/getTicket'
-                                }} /> </td>
-                                <td> <GiCancel className="clickIcon" onClick={() => {
-                                    // ask confirmation
-                                    if (window.confirm('Are you sure you want to cancel this slot?'))
-                                        this.cancelSlot(key.personName)
-                                }} /> </td>
+        return (
+            <div>
+                <NavBar />
+                <div className="addDataPage">
+                    <h2 className="addDataHeading"> Booked slots </h2>
+                    {/* display booked using a table */}
+                    <table id="bookedTable">
+                        <thead>
+                            <tr>
+                                <th> Person Name </th>
+                                <th> Cemetery Name </th>
+                                <th> Pin Code </th>
+                                <th> Booking time </th>
+                                <th> Get ticket </th> 
+                                <th> Cancel slot </th>
                             </tr>
-                        )
-                    })
-                }
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                        {
+                            this.state.bookedSlots.map((key, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td> {key.personName} </td>
+                                        <td> {key.name} </td>
+                                        <td> {key.pinCode} </td>
+                                        <td> {this.timestampToLocalDateTime(key.timestamp)} </td>
+                                        <td> <GrTicket className="clickIcon" onClick={() => {
+                                            cookie.save('personName', key.personName, { path: '/' })
+                                            cookie.save('name', key.name, { path: '/' })
+                                            cookie.save('pinCode', key.pinCode, { path: '/' })
+                                            cookie.save('timestamp', this.timestampToLocalDateTime(key.timestamp), { path: '/' })
+                                            window.location.href = '/getTicket'
+                                        }} /> </td>
+                                        <td> <GiCancel className="clickIcon" onClick={() => {
+                                            // ask confirmation
+                                            if (window.confirm('Are you sure you want to cancel this slot?'))
+                                                this.cancelSlot(key.personName)
+                                        }} /> </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        </tbody>
+                    </table>
 
-            <input type="button" value="🏠 Home" className="submitButton"
-                onClick={() => { window.location.href = '/' }}/>
-            <p className="errorMsgClass" id="errorMsg"></p>
-        </div>)
+                    <input type="button" value="🏠 Home" className="submitButton"
+                        onClick={() => { window.location.href = '/' }}/>
+                    <p className="errorMsgClass" id="errorMsg"></p>
+                </div>
+            </div>
+        )
     }
 }
 
