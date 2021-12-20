@@ -4,7 +4,7 @@ import cookie from 'react-cookies'
 import './HomePage.css'
 import { FiRefreshCw } from 'react-icons/fi'
 import { FaSearchLocation } from 'react-icons/fa'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { GrTicket } from 'react-icons/gr'
 import { FaMapMarkerAlt } from 'react-icons/fa'
@@ -14,9 +14,9 @@ export class HomePage extends React.Component {
   constructor(props){
     super(props)
     var dummyData = [
-      { name: 'Data is not loaded',
-          pinCode: '-', occupied: '-', vacancies: '-',
-          address: '-' }
+        { name: 'Data is not loaded',
+            pinCode: '-', occupied: '-', vacancies: '-',
+            address: '-' }
     ]
     this.state = { data : dummyData || [] }
     
@@ -56,7 +56,8 @@ export class HomePage extends React.Component {
     this.setState({displayData: this.state.displayData})
   }
   getData = async () => {
-    var res = await axios.get(this.backendURL + '/getData')
+    var url = this.backendURL + '/getData'
+    var res = await axios.get(url)
     res = res.data
     if (!res)
         console.log('No response from server')
@@ -102,26 +103,37 @@ export class HomePage extends React.Component {
     document.getElementById('searchBox').value = nearest.pinCode
     this.updateTable()
   }
+  hideUpdateButton = async () => {
+    var url = this.backendURL + '/isAdmin?access_token=' + this.access_token
+    axios.get(url)
+        .then(res => {
+            console.log(res.data.status)
+            if (res.data.status) {
+                console.log('Admin')
+            } else {
+                var updateBtn = document.getElementById('updateBtn')
+                if (updateBtn)
+                    updateBtn.style.display = 'none'
+            }
+        })
+  }
   getLoginButton = () => {
     let access_token = cookie.load('access_token')
     if (access_token)
         return (
             <div>
-            <input type="button" value="Logout" onClick={() => {
-                window.location.href = "/logout"
-            }} />
-            <input type="button" value="Book a slot" onClick={() => {
-                window.location.href = "/bookSlot"
-            }} />
-            <input type="button" value="Get booked slots" onClick={() => {
-                window.location.href = "/getBookedSlots"
-            }} />
-            <input type="button" value="Cancel a booked slot" onClick={() => {
-                window.location.href = "/cancelSlot"
-            }} />
-            <input type="button" value="Update data" onClick={() => {
-                window.location.href = "/addData"
-            }} />
+                <input type="button" value="Logout" onClick={() => {
+                    window.location.href = "/logout"
+                }} />
+                <input type="button" value="Book a slot" onClick={() => {
+                    window.location.href = "/bookSlot"
+                }} />
+                <input type="button" value="Get booked slots" onClick={() => {
+                    window.location.href = "/getBookedSlots"
+                }} />
+                <input id="updateBtn" type="button" value="Update data" onClick={() => {
+                    window.location.href = "/addData"
+                }} />
             </div>
         )
     else
@@ -157,80 +169,84 @@ export class HomePage extends React.Component {
     if (this.interval)
         clearInterval(this.interval)
   }
-  render()  {
-    return (
-        <div>
-        <div className="navbar">
-            <div className="navbar-left">
-                <header className="App-header">
-                    <div className="nav-text" onClick={() => { window.location.href = '/' }}>
-                        Graveyard vacancy tracking system
-                    </div>
-                </header>
-            </div>
-        </div>
-        <div className="App">
-        <input id="searchBox" type="search" className="inputBox"
-            placeholder="Search for graveyard" onInput={this.updateTable} />
-        <FaSearchLocation class="icon" />
-        <table>
-            <thead>
-                <tr>
-                    <th> Name </th>
-                    <th className="address"> Address </th>
-                    <th> Pin Code </th>
-                    <th> Occupied </th>
-                    <th> Vacancies </th>
-                    <th> Map location </th>
-                </tr>
-            </thead>
-            <tbody>
-            {
-                this.state.displayData.map((key, index) => {
-                    if (!key.mapLink)
-                        key.mapLink = 'https://www.google.com/maps/search/'
-                            + key.name + ', ' + key.address
-                    return (
-                        <tr key={index}>
-                            <td> {key.name} </td>
-                            <td className="address"> {key.address} </td>
-                            <td> {key.pinCode} </td>
-                            <td> {key.occupied} </td>
-                            <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
-                                {key.vacancies}
-                            </td>
-                            <td>
-                                <a href={key.mapLink}>
-                                    <FaMapMarkerAlt class="icon"
-                                        style={{cursor: 'pointer', color: 'red'}}
-                                    />
-                                </a>
-                            </td>
-                        </tr>
-                    )
-                })
-            }
-            </tbody>
-        </table>
-        <span className="cursor-pointer" onClick={this.getData}>
-            <span className="refreshText"> Refresh data </span>
-            <span className="refreshBtn">
-                <FiRefreshCw class="icon" />
-            </span>
-        </span>
-        <br />
-        Not found any with your pin code? Find nearest pin code
-        <input id="nearestBox" type="number" className="inputBox"
-            placeholder="Enter pin code" onInput={this.findNearest} />
-        <br />
-        <div id="nearestPinCode"> </div>
-        <br />
-        {this.getLoginButton()}
-        <div className="emptySpace">  </div>
-      </div>
-      </div>
-    );
+  // after rendering
+  componentDidUpdate() {
+    this.hideUpdateButton()
   }
+    render()  {
+        return (
+            <div>
+            <div className="navbar">
+                <div className="navbar-left">
+                    <header className="App-header">
+                        <div className="nav-text" onClick={() => { window.location.href = '/' }}>
+                            Graveyard vacancy tracking system
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div className="App">
+            <input id="searchBox" type="search" className="inputBox"
+                placeholder="Search for graveyard" onInput={this.updateTable} />
+            <FaSearchLocation class="icon" />
+            <table>
+                <thead>
+                    <tr>
+                        <th> Name </th>
+                        <th className="address"> Address </th>
+                        <th> Pin Code </th>
+                        <th> Occupied </th>
+                        <th> Vacancies </th>
+                        <th> Map location </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    this.state.displayData.map((key, index) => {
+                        if (!key.mapLink)
+                            key.mapLink = 'https://www.google.com/maps/search/'
+                                + key.name + ', ' + key.address
+                        return (
+                            <tr key={index}>
+                                <td> {key.name} </td>
+                                <td className="address"> {key.address} </td>
+                                <td> {key.pinCode} </td>
+                                <td> {key.occupied} </td>
+                                <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
+                                    {key.vacancies}
+                                </td>
+                                <td>
+                                    <a href={key.mapLink}>
+                                        <FaMapMarkerAlt class="icon"
+                                            style={{cursor: 'pointer', color: 'red'}}
+                                        />
+                                    </a>
+                                </td>
+                            </tr>
+                        )
+                    })
+                }
+                </tbody>
+            </table>
+            <span className="cursor-pointer" onClick={this.getData}>
+                <span className="refreshText"> Refresh data </span>
+                <span className="refreshBtn">
+                    <FiRefreshCw class="icon" />
+                </span>
+            </span>
+            <br />
+            Not found any with your pin code? Find nearest pin code
+            <input id="nearestBox" type="number" className="inputBox"
+                placeholder="Enter pin code" onInput={this.findNearest} />
+            <br />
+            <div id="nearestPinCode"> </div>
+            <br />
+            {this.getLoginButton()}
+            <div className="emptySpace">  </div>
+        </div>
+        </div>
+        );
+    }
 }
 
 
@@ -325,14 +341,14 @@ export class GetBookedSlots extends React.Component {
                                 <td> {key.name} </td>
                                 <td> {key.pinCode} </td>
                                 <td> {this.timestampToLocalDateTime(key.timestamp)} </td>
-                                <td> <GrTicket className="ticketBtn" onClick={() => {
+                                <td> <GrTicket className="clickIcon" onClick={() => {
                                     cookie.save('personName', key.personName, { path: '/' })
                                     cookie.save('name', key.name, { path: '/' })
                                     cookie.save('pinCode', key.pinCode, { path: '/' })
                                     cookie.save('timestamp', this.timestampToLocalDateTime(key.timestamp), { path: '/' })
                                     window.location.href = '/getTicket'
                                 }} /> </td>
-                                <td> <GiCancel className="cancelBtn" onClick={() => {
+                                <td> <GiCancel className="clickIcon" onClick={() => {
                                     // ask confirmation
                                     if (window.confirm('Are you sure you want to cancel this slot?'))
                                         this.cancelSlot(key.personName)

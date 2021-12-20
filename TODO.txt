@@ -1,17 +1,15 @@
 
 
+add red * before mandatory fields
+when booking/checking, consider lower case input too
 
-test and fix errors
-	register, login, logout
-	add, update, delete data
-	book slot, cancel slot
-	check vacancies in every step
-	check whether local variable == DB variable after updation
-
-tables: 
-	email_pass graveyard_data booked_slots email_slots
+DB has duplicate values
+	set primary key: db.email_pass.createIndex({email:1},{unique:true});
+	do same for all tables
+		db.table_name.createIndex({name:1, pinCode:1},{unique:true});
 
 validate email in frontend before signup & login
+	also in backend
 enable secure password during signup
 
 prepare final document
@@ -53,6 +51,12 @@ filter data by country
 allow only authorized people to update cemetery data
 	if person is not authorized, remove Updata Data button in frontend
 
+
+test and fix errors
+	register, login, logout ✅️
+	add, update, delete data ✅️
+	book slot, cancel slot ✅️
+	check vacancies in every step ✅️
 
 
 // try react frontend, python/PHP backend. complete it

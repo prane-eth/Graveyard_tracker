@@ -6,7 +6,7 @@ import './App.css'
 import { HomePage, GetBookedSlots, GetTicket } from './components/HomePage.js'
 import { LoginPage } from './components/LoginPage.js'
 import { UpdateData } from './components/UpdateData.js'
-import { BookSlot, CancelSlot } from './components/BookSlot.js'
+import { BookSlot } from './components/BookSlot.js'
 
 class LogoutPage extends React.Component {
   constructor(props)  {
@@ -51,9 +51,6 @@ function App()  {
           </Route>
           <Route path="/getTicket">
             <GetTicket />
-          </Route>
-          <Route path="/cancelSlot">
-            <CancelSlot />
           </Route>
           <Route path="/logout">
             <LogoutPage />

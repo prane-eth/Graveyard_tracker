@@ -70,10 +70,20 @@ export class UpdateData extends React.Component {
         } else
             errorMsg.innerText = 'unknown error'
     }
-    render()    {
+    componentWillMount() {
         this.access_token = cookie.load('access_token')
         if (!this.access_token)
             return <Redirect to="/login" />
+
+        var url = this.backendURL + '/isAdmin?access_token=' + this.access_token
+        fetch(url)
+            .then(res => res.json())
+            .then(res => {
+                if (!res.isAdmin)
+                    return <Redirect to="/login" />
+            })
+    }
+    render()    {
         return (<div className="addDataPage">
             <h2 className="addDataHeading"> Update data </h2>
             Name: <input type="text" placeholder="Name" id="name"/> <br />

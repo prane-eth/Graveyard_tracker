@@ -18,22 +18,31 @@ export class LoginPage extends React.Component {
     getHash(password) {
         return md5(password)
     }
+    setErrorMsg = (msg) => {
+        var errorMsg = document.getElementById('errorMsg')
+        errorMsg.style = 'color: red'
+        errorMsg.innerText = msg
+    }
     getResult = async (reqType) => {
         var email = document.getElementById('email').value
         var password = document.getElementById('password').value
         password = this.getHash(password)
         console.log(password)
+        // check if email is valid
+        if (!email.includes('@') || !email.includes('.')) {
+            this.setErrorMsg('Invalid email')
+            return
+        }
         let url = this.backendURL + '/' + reqType + '?email=' + email + '&password=' + password
         let res = await axios.get(url)
         res = res.data
         console.log(res)
-        var responseText = document.getElementById('responseText')
+        var errorMsg = document.getElementById('errorMsg')
         if (res.error) {
-            responseText.style = 'color: red'
-            responseText.innerText = res.error
+            this.setErrorMsg(res.error)
         } else if (res.status) {
-            responseText.style = 'color: green'
-            responseText.innerText = res.status
+            errorMsg.style = 'color: green'
+            errorMsg.innerText = res.status
 
             // if reqType is login
             if (reqType == 'login') {
@@ -53,10 +62,9 @@ export class LoginPage extends React.Component {
         var result = await this.getResult('signup')
         // login after signup
         result = await this.getResult('login')
-        return result
+        return result;
     }
-    render()    {
-        console.log('LoginPage')
+    render()   {
         let access_token = cookie.load('access_token')
         if (access_token)  {
             console.log('Already logged in')
@@ -65,15 +73,15 @@ export class LoginPage extends React.Component {
         return (
             <div className="loginPage">
                 <h2> Login here to update the data </h2>
-                <input type="email" defaultValue="dummy@gmail.com" placeholder="Email" id="email"/>
+                <input type="email" defaultValue="" placeholder="Email" id="email"/>
                 <br />
-                <input type="password" defaultValue="dummy123" placeholder="Password" id="password"/>
+                <input type="password" defaultValue="" placeholder="Password" id="password"/>
                 <br />
                 <input type="button" onClick={this.login} value="Login"/>
                 <input type="button" onClick={this.signup} value="Register"/>
                 <input type="button" value="🏠 Home" onClick={() => { window.location.href = '/' }}/>
                 <br />
-                <p id="responseText"></p>
+                <p id="errorMsg"></p>
             </div>
         )
     }
