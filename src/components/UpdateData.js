@@ -17,6 +17,11 @@ export class UpdateData extends React.Component {
     sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+    setErrorMsg = (msg) => {
+        var errorMsg = document.getElementById('errorMsg')
+        errorMsg.style = 'color: red'
+        errorMsg.innerText = msg
+    }
     submitValues = async () => {
         var name = document.getElementById('name').value
         var pinCode = document.getElementById('pinCode').value
@@ -27,19 +32,14 @@ export class UpdateData extends React.Component {
         // url encode mapLink
         mapLink = encodeURIComponent(mapLink)
         var errorMsg = document.getElementById('errorMsg')
-        if (!(name && pinCode )) {  // any empty value
-                    // && occupied && vacancies && address
-            errorMsg.style = 'color: red'
-            errorMsg.innerText = 'Please enter all the values'
-            return
-        }
+        if (!(name))
+            return this.setErrorMsg('Name cannot be empty')
         // length != 6
-        if (pinCode.length != 6) {
-            errorMsg.style = 'color: red'
-            errorMsg.innerText = 'Pin Code should have only 6 digits'
-            return
-        }
+        if (pinCode.length != 6)
+            return this.setErrorMsg('Pin Code should have only 6 digits')
         // console.log('Adding data', name, pinCode, occupied, vacancies, address, this.access_token)
+        if (!(occupied || vacancies || address || mapLink))
+            return this.setErrorMsg('Atleast one other field should be filled')
 
         var url = this.backendURL + '/updateData?name=' + name + '&pinCode=' + pinCode
             + '&occupied=' + occupied + '&vacancies=' + vacancies + '&address=' + address
@@ -48,8 +48,7 @@ export class UpdateData extends React.Component {
         console.log(url)
         res = res.data
         if (res.error) {
-            errorMsg.style = 'color: red'
-            errorMsg.innerText = res.error
+            this.setErrorMsg(res.error)
             return
         }
         if (res.status) {

@@ -29,12 +29,12 @@ export class BookSlot extends React.Component {
         var personName = document.getElementById('personName').value
         var name = document.getElementById('name').value
         var pinCode = document.getElementById('pinCode').value
-        if (!(name && pinCode )) {  // any empty value
-            this.setErrorMsg('Please enter all the values')
+        if (!(name)) {  // any empty value
+            this.setErrorMsg('Please enter the name')
             return
         }
         if (pinCode.toString().length != 6)  {
-            this.setErrorMsg('Pin Code should have only 6 digits')
+            this.setErrorMsg('Pin Code should have 6 digits')
             return
         }
         // if personName is not alphabetic, show error

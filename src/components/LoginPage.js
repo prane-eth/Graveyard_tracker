@@ -24,6 +24,18 @@ export class LoginPage extends React.Component {
         errorMsg.style = 'color: red'
         errorMsg.innerText = msg
     }
+    setAdminCookie = async (access_token) => {
+        if (!access_token)
+            return
+        var url = this.backendURL + '/isAdmin?access_token=' + access_token
+        var res = await axios.get(url)
+        if (res.data.status) {
+            cookie.save('admin', 'true', { path: '/' })
+            return true
+        } else {
+            return false
+        }
+    }
     getResult = async (reqType) => {
         var email = document.getElementById('email').value
         var password = document.getElementById('password').value
@@ -48,8 +60,8 @@ export class LoginPage extends React.Component {
             // if reqType is login
             if (reqType == 'login') {
                 this.access_token = res.access_token
-                console.log('access_token: ' + this.access_token)
                 cookie.save('access_token', this.access_token, { path: '/' })
+                this.setAdminCookie(this.access_token)
                 window.location.href = "/"
                 return this.access_token
             }
@@ -116,6 +128,7 @@ export class LogoutPage extends React.Component {
     let url = this.backendURL + '/logout?access_token=' + access_token
     axios.get(url)
     cookie.remove('access_token', { path: '/' })
+    cookie.remove('admin', { path: '/' })
   }
   render() {
     window.location.href = "/"

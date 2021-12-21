@@ -6,6 +6,20 @@ import { RiAccountPinCircleFill } from 'react-icons/ri'
 import './HomePage.css'
 
 export class NavBar extends React.Component {
+    constructor(props){
+      super(props)
+      if (window.location.href.includes('localhost'))
+          this.backendURL = 'http://localhost:5000'
+      else
+          this.backendURL = 'https://gyard-be.herokuapp.com'
+    }
+    getUpdateButton = () => {
+        var admin = cookie.load('admin')
+        if (admin)
+            return (<a href="/addData"> Update data </a>)
+        else
+            return (<div />)
+    }
     getLoginButton = () => {
       let access_token = cookie.load('access_token')
       if (access_token)
@@ -13,7 +27,7 @@ export class NavBar extends React.Component {
               <div>
                   <a href="/bookSlot"> Book a slot </a>
                   <a href="/getBookedSlots"> Get booked slots </a>
-                  <a href="/addData"> Update data </a>
+                  {this.getUpdateButton()}
                   <a href="/changePassword"> Change password </a>
                   <a href="/logout"> Logout </a>
               </div>
@@ -24,24 +38,6 @@ export class NavBar extends React.Component {
                   <a href="/login" className="login"> Login/Register </a>
               </div>
           )
-    }
-    hideUpdateButton = async () => {
-      var url = this.backendURL + '/isAdmin?access_token=' + this.access_token
-      axios.get(url)
-          .then(res => {
-              console.log(res.data.status)
-              if (res.data.status) {
-                  console.log('Admin')
-              } else {
-                  var updateBtn = document.getElementById('updateBtn')
-                  if (updateBtn)
-                      updateBtn.style.display = 'none'
-              }
-          })
-    }
-    // after rendering
-    componentDidUpdate() {
-        this.hideUpdateButton()
     }
     render() {
         // navbar like https://www.w3schools.com/howto/howto_css_more_button.asp

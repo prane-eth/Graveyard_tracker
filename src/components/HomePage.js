@@ -78,29 +78,44 @@ export class HomePage extends React.Component {
     if (pinCode.length == 0)    {
         result = " "
         document.getElementById('searchBox').value = ""
-        document.getElementById('nearestPinCode').innerHTML = ""
+        document.getElementById('nearestPinCode').innerText = ""
         this.updateTable()
         return
     }
     if (pinCode.length > 6)    {
         result = " "
         document.getElementById('searchBox').value = ""
-        document.getElementById('nearestPinCode').innerHTML = "Pin Code should contain only 6 digits"
+        document.getElementById('nearestPinCode').innerText = "Pin Code should contain only 6 digits"
         this.updateTable()
         return
     }
-    while (pinCode.length < 6)
-        pinCode = pinCode + '0'
-    var nearest = this.state.data.reduce((prev, curr) => {
-        if (Math.abs(curr.pinCode - pinCode) < Math.abs(prev.pinCode - pinCode))
-            return curr
-        else
-            return prev
-    })
-    if (!result)
-        result = 'Nearest pin code is ' + nearest.pinCode + ' at ' + nearest.address
-    document.getElementById('nearestPinCode').innerHTML = result
-    document.getElementById('searchBox').value = nearest.pinCode
+    // absolute difference
+    if (pinCode.length < 5) {
+        result = "Kindly enter at least 5 digits"
+        document.getElementById('searchBox').value = ""
+    } else {
+        var oldPin = pinCode
+        while (pinCode.length < 6)
+            pinCode = pinCode + '0'
+        var nearest = this.state.data.reduce((prev, curr) => {
+            if (Math.abs(curr.pinCode - pinCode) < Math.abs(prev.pinCode - pinCode))
+                return curr
+            else
+                return prev
+        })
+        console.log(nearest.pinCode)
+        console.log(pinCode)
+        var diff = Math.abs(nearest.pinCode - pinCode)
+        if (oldPin.length == 6 && diff > 10)
+            result = "No graveyard found in this area"
+        if (oldPin.length == 5 && diff > 10)
+            result = "No graveyard found in this area"
+        if (!result) {
+            result = 'Nearest pin code is ' + nearest.pinCode + ' at ' + nearest.address
+            document.getElementById('searchBox').value = nearest.pinCode
+        }
+    }
+    document.getElementById('nearestPinCode').innerText = result
     this.updateTable()
   }
   componentDidMount() {
@@ -113,16 +128,16 @@ export class HomePage extends React.Component {
             if (res.data.error) {
                 console.log('error: ' + res.data.error)
                 cookie.remove('access_token', { path: '/' })
+                cookie.remove('admin', { path: '/' })
                 window.location.href = "/"
             }
         })
     }
     this.getData()
-    var sec = 1000  // second in milliseconds
     if (!this.interval)  {
         this.interval = setInterval(() => {  // refresh at regular intervals
             this.getData()
-        }, 30*sec);  // 30 seconds
+        }, 10*1000);  // 30 seconds
     }
   }
   componentWillUnmount() {
@@ -132,64 +147,64 @@ export class HomePage extends React.Component {
     render()  {
         return (
             <div>
-            <NavBar searchBox="true" />
-            <div className="App">
-            <h2 className="addDataHeading"> Graveyard data </h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th> Name </th>
-                        <th className="address"> Address </th>
-                        <th> Pin Code </th>
-                        <th> Occupied </th>
-                        <th> Vacancies </th>
-                        <th> Map location </th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    this.state.displayData.map((key, index) => {
-                        if (!key.mapLink)
-                            key.mapLink = 'https://www.google.com/maps/search/'
-                                + key.name + ', ' + key.address
-                        return (
-                            <tr key={index}>
-                                <td> {key.name} </td>
-                                <td className="address"> {key.address} </td>
-                                <td> {key.pinCode} </td>
-                                <td> {key.occupied} </td>
-                                <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
-                                    {key.vacancies}
-                                </td>
-                                <td>
-                                    <a href={key.mapLink}>
-                                        <FaMapMarkerAlt class="icon"
-                                            style={{cursor: 'pointer', color: 'red'}}
-                                        />
-                                    </a>
-                                </td>
+                <NavBar searchBox="true" />
+                <div className="App">
+                    <h2 className="addDataHeading"> Graveyard data </h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> Name </th>
+                                <th className="address"> Address </th>
+                                <th> Pin Code </th>
+                                <th> Occupied </th>
+                                <th> Vacancies </th>
+                                <th> Map location </th>
                             </tr>
-                        )
-                    })
-                }
-                </tbody>
-            </table>
-            <span className="cursor-pointer" onClick={this.getData}>
-                <span className="refreshText"> Refresh data </span>
-                <span className="refreshBtn">
-                    <FiRefreshCw class="icon" />
-                </span>
-            </span>
-            <br />
-            Not found any with your pin code? Find nearest pin code
-            <input id="nearestBox" type="number" className="inputBox"
-                placeholder="Enter pin code" onInput={this.findNearest} />
-            <br />
-            <div id="nearestPinCode"> </div>
-            <br />
-            <div className="emptySpace">  </div>
-        </div>
-        </div>
+                        </thead>
+                        <tbody>
+                        {
+                            this.state.displayData.map((key, index) => {
+                                if (!key.mapLink)
+                                    key.mapLink = 'https://www.google.com/maps/search/'
+                                        + key.name + ', ' + key.address
+                                return (
+                                    <tr key={index}>
+                                        <td> {key.name} </td>
+                                        <td className="address"> {key.address} </td>
+                                        <td> {key.pinCode} </td>
+                                        <td> {key.occupied} </td>
+                                        <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
+                                            {key.vacancies}
+                                        </td>
+                                        <td>
+                                            <a href={key.mapLink}>
+                                                <FaMapMarkerAlt class="icon"
+                                                    style={{cursor: 'pointer', color: 'red'}}
+                                                />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        </tbody>
+                    </table>
+                    <span className="cursor-pointer" onClick={this.getData}>
+                        <span className="refreshText"> Refresh data </span>
+                        <span className="refreshBtn">
+                            <FiRefreshCw class="icon" />
+                        </span>
+                    </span>
+                    <br />
+                    Not found any with your pin code? Find nearest pin code
+                    <input id="nearestBox" type="number" className="inputBox"
+                        placeholder="Enter pin code" onInput={this.findNearest} />
+                    <br />
+                    <div id="nearestPinCode"> </div>
+                    <br />
+                    <div className="emptySpace">  </div>
+                </div>
+            </div>
         );
     }
 }

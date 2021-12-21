@@ -1,9 +1,10 @@
 
 
 
-map icon is linking to email
-	delete graveyard data & add again
-when booking/checking, consider lower case input too
+strip input before using
+backend: when booking/checking, consider lower case input too
+
+prepare final document
 
 DB has duplicate values
 	set primary key: db.email_pass.createIndex({email:1},{unique:true});
@@ -11,7 +12,6 @@ DB has duplicate values
 		db.table_name.createIndex({name:1, pinCode:1},{unique:true});
 
 
-prepare final document
 
 
 additional:
