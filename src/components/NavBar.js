@@ -56,7 +56,7 @@ export class NavBar extends React.Component {
             {this.props.searchBox ?
                 <div>
                     <input id="searchBox" type="search" className="inputBox"
-                        placeholder="Search for graveyard" onInput={this.updateTable} />
+                        placeholder="Search for graveyard" />
                     <FaSearchLocation class="icon" id="searchIcon" />
                 </div> : null}
         </div>)

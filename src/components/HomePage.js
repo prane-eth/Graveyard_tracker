@@ -12,22 +12,23 @@ import { NavBar } from './NavBar'
 
 
 export class HomePage extends React.Component {
-  constructor(props){
-    super(props)
-    var dummyData = [
-        { name: 'Data is not loaded',
-            pinCode: '-', occupied: '-', vacancies: '-',
-            address: '-' }
-    ]
-    this.state = { data : dummyData || [] }
-    
-    if (window.location.href.includes('localhost'))
-        this.backendURL = 'http://localhost:5000'
-    else
-        this.backendURL = 'https://gyard-be.herokuapp.com'
-    this.state.displayData = []
-  }
+    constructor(props){
+        super(props)
+        var dummyData = [
+            { name: 'Data is not loaded',
+                pinCode: '-', occupied: '-', vacancies: '-',
+                address: '-' }
+        ]
+        this.state = { data : dummyData || [] }
+
+        if (window.location.href.includes('localhost'))
+            this.backendURL = 'http://localhost:5000'
+        else
+            this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.state.displayData = []
+    }
   updateTable = () => {
+      console.log('updateTable')
     this.state.displayData = []
     var searchText = document.getElementById('searchBox')
     if (!searchText)
@@ -119,32 +120,41 @@ export class HomePage extends React.Component {
     document.getElementById('nearestPinCode').innerText = result
     this.updateTable()
   }
-  componentDidMount() {
-    this.access_token = cookie.load('access_token')
-    console.log('HomePage mounted')
-    console.log(this.access_token)
-    if (this.access_token) {
-        var url = this.backendURL + '/isTokenValid?access_token=' + this.access_token
-        axios.get(url).then(res => {
-            if (res.data.error) {
-                console.log('error: ' + res.data.error)
-                cookie.remove('access_token', { path: '/' })
-                cookie.remove('admin', { path: '/' })
-                window.location.href = "/"
-            }
-        })
+    componentDidMount() {
+        this.access_token = cookie.load('access_token')
+        console.log('HomePage mounted')
+        console.log(this.access_token)
+        if (this.access_token) {
+            var url = this.backendURL + '/isTokenValid?access_token=' + this.access_token
+            axios.get(url).then(res => {
+                if (res.data.error) {
+                    console.log('error: ' + res.data.error)
+                    cookie.remove('access_token', { path: '/' })
+                    cookie.remove('admin', { path: '/' })
+                    window.location.href = "/"
+                }
+            })
+        }
+        this.getData()
+        if (!this.interval)  {
+            this.interval = setInterval(() => {  // refresh at regular intervals
+                this.getData()
+            }, 10*1000);  // 30 seconds
+        }
     }
-    this.getData()
-    if (!this.interval)  {
-        this.interval = setInterval(() => {  // refresh at regular intervals
-            this.getData()
-        }, 10*1000);  // 30 seconds
+    componentWillUnmount() {
+        if (this.interval)
+            clearInterval(this.interval)
     }
-  }
-  componentWillUnmount() {
-    if (this.interval)
-        clearInterval(this.interval)
-  }
+    componentDidUpdate() {
+        // set oninput listener for search box
+        var searchBox = document.getElementById('searchBox')
+        if (searchBox)
+            searchBox.oninput = this.updateTable
+        var searchIcon = document.getElementById('searchIcon')
+        if (searchIcon)
+            searchIcon.onclick = this.updateTable
+    }
     render()  {
         return (
             <div>
@@ -282,8 +292,8 @@ export class GetBookedSlots extends React.Component {
         return (
             <div>
                 <NavBar />
-                <div className="addDataPage">
-                    <h2 className="addDataHeading"> Booked slots </h2>
+                <div className="getBookedPage">
+                    <h2 className="getSlotsHeading"> Booked slots </h2>
                     {/* display booked using a table */}
                     <table id="bookedTable">
                         <thead>
@@ -323,7 +333,7 @@ export class GetBookedSlots extends React.Component {
                         }
                         </tbody>
                     </table>
-                    <p className="errorMsgClass" id="errorMsg"></p>
+                    <p className="errorMsgClass errorMsgClass-booked" id="errorMsg"></p>
                 </div>
             </div>
         )

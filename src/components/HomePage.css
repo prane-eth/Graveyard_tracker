@@ -6,7 +6,7 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 50%;
-    margin: 20%;
+    /* margin: 20%; */
     margin-top: 0;
     margin-bottom: 0;
     border-radius: 10px;
@@ -16,6 +16,10 @@ table {
     outline: none;
     border-color: #9ecaed;
     box-shadow: 0 0 50px #9ecaed;
+
+    /* move table to center of the page */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 thead   {
@@ -62,7 +66,8 @@ tr:nth-child(even):hover {
 }
 
 .address    {
-    width: 250px;
+    /* increase width of the address column */
+    min-width: 250px;
 }
 
 input   {
@@ -81,21 +86,29 @@ input[type=button], input[type=submit]  {
     margin-top: 10vh;
 }
 .addDataPage {
+    /* width: 50%; */
+    /* margin: 0;
+    padding: 0; */
     width: 40vw;
     margin-left: 15vw;
     margin-right: 5vw;
     padding-left: 15vw;
     padding-right: 5vw;
-    margin-top: 2vh;
-    padding-bottom: 5vh;
-    /* border: 1px solid #888; */
+    margin-left: auto;
+    margin-right: auto;
+}
+.getBookedPage {
+    margin: 0;
+    padding: 0;
 }
 .submitButton   {
     margin-left: 4vw;
     width: 250px;
 }
 .addDataHeading  {
-    margin-left: 6vw;
+    /* move heading to center of the page */
+    margin-right: auto;
+    margin-left: auto;
 }
 
 
@@ -150,8 +163,9 @@ input   {
     cursor: pointer;
 }
 #bookedTable    {
-    margin-left: 0vw;
     margin-top: 0vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .clickIcon  {
@@ -235,4 +249,18 @@ input   {
     color: white;
     margin-top: 1vw;
     cursor: pointer;
+}
+
+.getSlotsHeading    {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    text-align: center;
+}
+.errorMsgClass-booked   {
+    color: red;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
