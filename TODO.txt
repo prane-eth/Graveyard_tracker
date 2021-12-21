@@ -1,38 +1,28 @@
 
 
-
-strip input before using
-backend: when booking/checking, consider lower case input too
-
 prepare final document
+
+make it work on heroku. fix error
+detect & stop bruteforce attack
+
+
+additional:
+
+add red * before mandatory fields
+allow an admin to add more admins
+
+optimize page/table css if window is shrinked to left
+	optimize for mobile
+
+enter sample data from real world
 
 DB has duplicate values
 	set primary key: db.email_pass.createIndex({email:1},{unique:true});
 	do same for all tables
 		db.table_name.createIndex({name:1, pinCode:1},{unique:true});
 
-create PageClass which extends react.component, which is base class
-	use it to extend other classes
-	define functions like constructor, sleep, setErrorMsg and all
-	test loading all pages
-	dont define componentWillMount or render() in that
-
-
-additional:
-
-add red * before mandatory fields
-enable button to clear input values
-
-optimize page/table css if window is shrinked to left
-	optimize for mobile
-make sure password is secure
-hash password in frontend and also in backend
-
-enter sample data from real world
 have good looking pages
 2-step verification during login
-	no 2-step verification if login from same IP address as last login/signup
-generate random password during signup
 option to reset password
 use IP address or location permission to access location
 prevent all possible cyber attacks
@@ -40,16 +30,13 @@ prevent all possible cyber attacks
 enable country column in table
 filter data by country
 
-
-allow only authorized people to update cemetery data
-	if person is not authorized, remove Updata Data button in frontend
-
-
 test and fix errors
 	register, login, logout ✅️
 	add, update, delete data ✅️
 	book slot, cancel slot ✅️
-	check vacancies in every step ✅️
+	check vacancies in every step - both DB & local
+
+
 
 
 // try react frontend, python/PHP backend. complete it

@@ -31,17 +31,57 @@ export class LoginPage extends React.Component {
             return false
         }
     }
+    setErrorMsg = (msg) => {
+        var errorMsg = document.getElementById('errorMsg')
+        errorMsg.style.color = 'red'
+        errorMsg.innerHTML = msg
+    }
+    selectRandom = (string) => {
+        var random = Math.floor(Math.random() * string.length)
+        return string[random]
+    }
+    randomPassword = () => {
+        var upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        var lowerCase = 'abcdefghijklmnopqrstuvwxyz'
+        var numbers = '0123456789'
+        var specialChars = '!@#$%^&*()_+'
+        var possible = upperCase + lowerCase + numbers + specialChars
+        
+        var password = ''
+        password += this.selectRandom(upperCase) + this.selectRandom(upperCase)
+        password += this.selectRandom(lowerCase) + this.selectRandom(lowerCase)
+        password += this.selectRandom(numbers)  + this.selectRandom(numbers)
+        password += this.selectRandom(specialChars) + this.selectRandom(specialChars)
+        password += this.selectRandom(possible) + this.selectRandom(possible) + this.selectRandom(possible)
+        password += this.selectRandom(possible) + this.selectRandom(possible)
+        return password
+    }
     getResult = async (reqType) => {
         var email = document.getElementById('email').value
         var password = document.getElementById('password').value
-        password = this.getHash(password)
-        console.log(password)
         email = email.trim()
         // check if email is valid
         if (!email.includes('@') || !email.includes('.')) {
             this.setErrorMsg('Invalid email')
             return
         }
+
+        // check if password is strong
+        if (password.toString().length < 8) {
+            this.setErrorMsg('Password must contain at least 8 characters')
+            return
+        }
+        console.log(password.toString())
+        // check if password is strong
+        if (!password.match(/[a-z]/g) || !password.match(/[A-Z]/g) || !password.match(/[0-9]/g)) {
+            this.setErrorMsg(
+                'Password must contain at least one lowercase letter, one uppercase letter and one number'
+                + '<br> Recommended password: ' + this.randomPassword()
+            )
+            return
+        }
+
+        password = this.getHash(password)
         let url = this.backendURL + '/' + reqType + '?email=' + email + '&password=' + password
         let res = await axios.get(url)
         res = res.data
@@ -60,18 +100,6 @@ export class LoginPage extends React.Component {
                 this.setAdminCookie(this.access_token)
                 window.location.href = "/"
                 return this.access_token
-            }
-            else if (reqType == 'signup') {
-                // check if password is strong
-                if (password.length < 8) {
-                    this.setErrorMsg('Password must contain at least 8 characters')
-                    return
-                }
-                // check if password is strong
-                if (!password.match(/[a-z]/g) || !password.match(/[A-Z]/g) || !password.match(/[0-9]/g)) {
-                    this.setErrorMsg('Password must contain at least one lowercase letter, one uppercase letter and one number')
-                    return
-                }
             }
         }
     }

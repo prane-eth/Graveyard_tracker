@@ -32,6 +32,11 @@ export class BookSlot extends React.Component {
         personName = personName.trim()
         name = name.trim()
 
+        if (name == personName) {
+            this.setErrorMsg('Graveyard name and Person name cannot be same')
+            return
+        }
+
         if (!(name)) {  // any empty value
             this.setErrorMsg('Please enter the name')
             return
@@ -41,7 +46,7 @@ export class BookSlot extends React.Component {
             return
         }
         // if personName is not alphabetic, show error
-        if (!personName.match(/^[a-zA-Z]+$/)) {
+        if (!personName.match(/^[a-zA-Z ]+$/)) {
             this.setErrorMsg('Person Name is invalid')
             return
         }

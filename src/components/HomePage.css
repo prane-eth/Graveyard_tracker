@@ -78,7 +78,7 @@ input[type=button], input[type=submit]  {
 
 .loginPage {
     margin-left: 30vw;
-    margin-top: 30vh;
+    margin-top: 10vh;
 }
 .addDataPage {
     width: 40vw;
@@ -196,9 +196,6 @@ input   {
     background-color: inherit;
     font-family: inherit;
     margin: 0;
-}
-.navbar a:hover, .dropdown:hover .dropbtn {
-    /* background-color: red; */
 }
 .dropdown-content {
     display: none;

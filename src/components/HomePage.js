@@ -323,9 +323,6 @@ export class GetBookedSlots extends React.Component {
                         }
                         </tbody>
                     </table>
-
-                    <input type="button" value="🏠 Home" className="submitButton"
-                        onClick={() => { window.location.href = '/' }}/>
                     <p className="errorMsgClass" id="errorMsg"></p>
                 </div>
             </div>

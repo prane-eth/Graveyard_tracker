@@ -23,6 +23,9 @@ export class UpdateData extends React.Component {
         errorMsg.style = 'color: red'
         errorMsg.innerText = msg
     }
+    encodeURL = (url) => {
+        return encodeURI(url)
+    }
     submitValues = async () => {
         var name = document.getElementById('name').value
         var pinCode = document.getElementById('pinCode').value
@@ -39,7 +42,9 @@ export class UpdateData extends React.Component {
         mapLink = mapLink.trim()
 
         // url encode mapLink
-        mapLink = encodeURIComponent(mapLink)
+        mapLink = this.encodeURL(mapLink)
+        console.log(mapLink)
+
         var errorMsg = document.getElementById('errorMsg')
         if (!(name))
             return this.setErrorMsg('Name cannot be empty')
@@ -81,18 +86,16 @@ export class UpdateData extends React.Component {
     }
     componentWillMount() {
         this.access_token = cookie.load('access_token')
-        if (!this.access_token)
-            return <Redirect to="/login" />
-
         var url = this.backendURL + '/isAdmin?access_token=' + this.access_token
         fetch(url)
             .then(res => res.json())
             .then(res => {
-                if (!res.isAdmin)
+                if (!res.status)
                     window.location.href = '/'
             })
     }
     render()    {
+        this.access_token = cookie.load('access_token')
         if (!this.access_token)
             return <Redirect to="/login" />
         return (
