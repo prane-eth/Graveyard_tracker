@@ -19,11 +19,6 @@ export class LoginPage extends React.Component {
     getHash(password) {
         return md5(password)
     }
-    setErrorMsg = (msg) => {
-        var errorMsg = document.getElementById('errorMsg')
-        errorMsg.style = 'color: red'
-        errorMsg.innerText = msg
-    }
     setAdminCookie = async (access_token) => {
         if (!access_token)
             return
@@ -41,6 +36,7 @@ export class LoginPage extends React.Component {
         var password = document.getElementById('password').value
         password = this.getHash(password)
         console.log(password)
+        email = email.trim()
         // check if email is valid
         if (!email.includes('@') || !email.includes('.')) {
             this.setErrorMsg('Invalid email')
@@ -140,7 +136,6 @@ export class LogoutPage extends React.Component {
 export class ChangePassword extends React.Component {
     constructor(props)  {
         super(props)
-        this.backendURL = ''
         if (window.location.href.includes('localhost'))
             this.backendURL = 'http://localhost:5000'
         else

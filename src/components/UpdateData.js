@@ -13,6 +13,7 @@ export class UpdateData extends React.Component {
             this.backendURL = 'http://localhost:5000'
         else
             this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.access_token = cookie.load('access_token')
     }
     sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -29,6 +30,14 @@ export class UpdateData extends React.Component {
         var vacancies = document.getElementById('vacancies').value
         var address = document.getElementById('address').value
         var mapLink = document.getElementById('mapLink').value
+
+        name = name.trim()
+        pinCode = pinCode.trim()
+        occupied = occupied.trim()
+        vacancies = vacancies.trim()
+        address = address.trim()
+        mapLink = mapLink.trim()
+
         // url encode mapLink
         mapLink = encodeURIComponent(mapLink)
         var errorMsg = document.getElementById('errorMsg')
@@ -80,10 +89,12 @@ export class UpdateData extends React.Component {
             .then(res => res.json())
             .then(res => {
                 if (!res.isAdmin)
-                    return <Redirect to="/login" />
+                    window.location.href = '/'
             })
     }
     render()    {
+        if (!this.access_token)
+            return <Redirect to="/login" />
         return (
             <div>
                 <NavBar />

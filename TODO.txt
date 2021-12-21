@@ -11,7 +11,11 @@ DB has duplicate values
 	do same for all tables
 		db.table_name.createIndex({name:1, pinCode:1},{unique:true});
 
-
+create PageClass which extends react.component, which is base class
+	use it to extend other classes
+	define functions like constructor, sleep, setErrorMsg and all
+	test loading all pages
+	dont define componentWillMount or render() in that
 
 
 additional:

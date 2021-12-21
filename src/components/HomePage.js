@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies'
-import './HomePage.css'
-import { NavBar } from './NavBar'
 import { FiRefreshCw } from 'react-icons/fi'
 import { Redirect } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { GrTicket } from 'react-icons/gr'
 import { FaMapMarkerAlt } from 'react-icons/fa'
+
+import './HomePage.css'
+import { NavBar } from './NavBar'
 
 
 export class HomePage extends React.Component {
@@ -342,12 +343,6 @@ export class GetTicket extends React.Component {
             this.backendURL = 'https://gyard-be.herokuapp.com'
     }
     render()    {
-        this.access_token = cookie.load('access_token')
-        if (!this.access_token){
-            console.log('No access token')
-            return <Redirect to="/login" />
-        }
-        
         var personName = cookie.load('personName', { path: '/' })
         var name = cookie.load('name', { path: '/' })
         var pinCode = cookie.load('pinCode', { path: '/' })

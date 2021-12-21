@@ -1,4 +1,3 @@
-
 import React from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies'
@@ -29,6 +28,10 @@ export class BookSlot extends React.Component {
         var personName = document.getElementById('personName').value
         var name = document.getElementById('name').value
         var pinCode = document.getElementById('pinCode').value
+        
+        personName = personName.trim()
+        name = name.trim()
+
         if (!(name)) {  // any empty value
             this.setErrorMsg('Please enter the name')
             return
