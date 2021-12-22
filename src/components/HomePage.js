@@ -322,7 +322,7 @@ export class GetBookedSlots extends React.Component {
                                             cookie.save('timestamp', this.timestampToLocalDateTime(key.timestamp), { path: '/' })
                                             window.location.href = '/getTicket'
                                         }} /> </td>
-                                        <td> <GiCancel className="clickIcon" onClick={() => {
+                                        <td> <GiCancel className="clickIcon cancelSlotBtn" onClick={() => {
                                             // ask confirmation
                                             if (window.confirm('Are you sure you want to cancel this slot?'))
                                                 this.cancelSlot(key.personName)

@@ -64,6 +64,9 @@ tr:nth-child(even):hover {
     color: red;
     background-color: #fcc;
 }
+.cancelSlotBtn  {
+    color: red;
+}
 
 .address    {
     /* increase width of the address column */

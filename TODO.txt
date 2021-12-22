@@ -1,20 +1,14 @@
 
 
-add kerala data
-	https://www.google.com/maps/search/Cemetery/@9.9941063,76.283971,14.01z
-
-in slot display page, move table to left
-
-run plagiarism checker. fix the copied code
 
 prepare slides
-	mention what is done after last review
-	add github and heroku links, youtube demo link
 
 make it work on heroku. fix error
 detect & stop bruteforce attack
+record demo & upload to youtube
 
 prepare final document
+	run plagiarism checker. fix the copied code
 	dont put 1-line responses in any section
 	update screenshots, graphs, code
 	write what situations are handled
