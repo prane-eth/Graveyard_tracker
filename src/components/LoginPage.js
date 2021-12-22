@@ -19,18 +19,6 @@ export class LoginPage extends React.Component {
     getHash(password) {
         return md5(password)
     }
-    setAdminCookie = async (access_token) => {
-        if (!access_token)
-            return
-        var url = this.backendURL + '/isAdmin?access_token=' + access_token
-        var res = await axios.get(url)
-        if (res.data.status) {
-            cookie.save('admin', 'true', { path: '/' })
-            return true
-        } else {
-            return false
-        }
-    }
     setErrorMsg = (msg) => {
         var errorMsg = document.getElementById('errorMsg')
         errorMsg.style.color = 'red'
@@ -56,6 +44,19 @@ export class LoginPage extends React.Component {
         password += this.selectRandom(possible) + this.selectRandom(possible)
         return password
     }
+    setAdminCookie = async (access_token) => {
+        if (!access_token)
+            return
+        var url = this.backendURL + '/isAdmin?access_token=' + access_token
+        var res = await axios.get(url)
+        console.log(res.data.status)
+        if (res.data.status == true) {
+            cookie.save('admin', 'true', { path: '/' })
+            return true
+        } else {
+            return false
+        }
+    }
     getResult = async (reqType) => {
         var email = document.getElementById('email').value
         var password = document.getElementById('password').value
@@ -63,13 +64,13 @@ export class LoginPage extends React.Component {
         // check if email is valid
         if (!email.includes('@') || !email.includes('.')) {
             this.setErrorMsg('Invalid email')
-            return
+            return 'error'
         }
 
         // check if password is strong
         if (password.toString().length < 8) {
             this.setErrorMsg('Password must contain at least 8 characters')
-            return
+            return 'error'
         }
         console.log(password.toString())
         // check if password is strong
@@ -78,7 +79,7 @@ export class LoginPage extends React.Component {
                 'Password must contain at least one lowercase letter, one uppercase letter and one number'
                 + '<br> Recommended password: ' + this.randomPassword()
             )
-            return
+            return 'error'
         }
 
         password = this.getHash(password)
@@ -89,6 +90,7 @@ export class LoginPage extends React.Component {
         var errorMsg = document.getElementById('errorMsg')
         if (res.error) {
             this.setErrorMsg(res.error)
+            return 'error'
         } else if (res.status) {
             errorMsg.style = 'color: green'
             errorMsg.innerText = res.status
@@ -104,14 +106,16 @@ export class LoginPage extends React.Component {
         }
     }
     login = async () => {
-        var result = await this.getResult('login')
-        return result
+        var access_token = await this.getResult('login')
+        return access_token
     }
     signup = async () => {
         var result = await this.getResult('signup')
+        if (result == 'error')
+            return result
         // login after signup
-        result = await this.getResult('login')
-        return result;
+        var access_token = await this.getResult('login')
+        return access_token;
     }
     render()   {
         let access_token = cookie.load('access_token')

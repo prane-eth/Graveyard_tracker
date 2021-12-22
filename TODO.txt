@@ -1,11 +1,8 @@
 
 
 
-prepare slides
-
-make it work on heroku. fix error
-detect & stop bruteforce attack
 record demo & upload to youtube
+detect & stop bruteforce attack
 
 prepare final document
 	run plagiarism checker. fix the copied code
