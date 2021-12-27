@@ -2,7 +2,8 @@ import React from 'react'
 import cookie from 'react-cookies'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
-import md5 from 'md5'
+// import md5 from 'md5'
+import sha256 from 'sha256'
 import { NavBar } from './NavBar'
 
 
@@ -17,7 +18,7 @@ export class LoginPage extends React.Component {
     }
     // function to get hash of password
     getHash(password) {
-        return md5(password)
+        return sha256(password)
     }
     setErrorMsg = (msg) => {
         var errorMsg = document.getElementById('errorMsg')
@@ -185,7 +186,7 @@ export class ChangePassword extends React.Component {
         errorMsg.innerText = msg
     }
     getHash = (password) => {
-        return md5(password)
+        return sha256(password)
     }
     submitValues = async () => {
         var errorMsg = document.getElementById('errorMsg')
