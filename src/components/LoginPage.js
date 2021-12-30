@@ -73,7 +73,6 @@ export class LoginPage extends React.Component {
             this.setErrorMsg('Password must contain at least 8 characters')
             return 'error'
         }
-        console.log(password.toString())
         // check if password is strong
         // Note: /g compares the regex with entire string instead of only the first character
         if (!password.match(/[a-z]/g) || !password.match(/[A-Z]/g) || !password.match(/[0-9]/g)) {
