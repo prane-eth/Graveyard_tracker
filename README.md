@@ -3,6 +3,11 @@
 Deployed link https://gyard.herokuapp.com/ \
 Backend link https://github.com/vh-praneeth/Graveyard_tracker_backend
 
+To install the required packages, run `npm install`
+
+To start the project, run `npm start`
+
+
 ## Project details
 
 This project "Graveyard vacancy tracking system" is a project made to help people all the time,
