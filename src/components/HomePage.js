@@ -9,6 +9,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa'
 
 import './HomePage.css'
 import { NavBar } from './NavBar'
+import backendURL from './BackendURL'
 
 
 export class HomePage extends React.Component {
@@ -20,11 +21,7 @@ export class HomePage extends React.Component {
                 address: '-' }
         ]
         this.state = { data : dummyData || [] }
-
-        if (window.location.href.includes('localhost'))
-            this.backendURL = 'http://localhost:5000'
-        else
-            this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.backendURL = backendURL
         this.state.displayData = []
     }
   updateTable = () => {
@@ -77,7 +74,7 @@ export class HomePage extends React.Component {
     var result = ""
     if (!pinCode)
         result = " "
-    if (pinCode.length == 0)    {
+    if (pinCode.length === 0)    {
         result = " "
         document.getElementById('searchBox').value = ""
         document.getElementById('nearestPinCode').innerText = ""
@@ -108,9 +105,9 @@ export class HomePage extends React.Component {
         console.log(nearest.pinCode)
         console.log(pinCode)
         var diff = Math.abs(nearest.pinCode - pinCode)
-        if (oldPin.length == 6 && diff > 10)
+        if (oldPin.length === 6 && diff > 10)
             result = "No graveyard found in this area"
-        if (oldPin.length == 5 && diff > 10)
+        if (oldPin.length === 5 && diff > 10)
             result = "No graveyard found in this area"
         if (!result) {
             result = 'Nearest pin code is ' + nearest.pinCode + ' at ' + nearest.address
@@ -157,66 +154,85 @@ export class HomePage extends React.Component {
     }
     render()  {
         return (
-            <div>
-                <NavBar searchBox="true" />
-                <div className="App">
-                    <h2 className="addDataHeading"> Graveyard data </h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th> Name </th>
-                                <th className="address"> Address </th>
-                                <th> Pin Code </th>
-                                <th> Occupied </th>
-                                <th> Vacancies </th>
-                                <th> Map location </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.displayData.map((key, index) => {
-                                if (!key.mapLink)
-                                    key.mapLink = 'https://www.google.com/maps/search/'
-                                        + key.name + ', ' + key.address
-                                return (
-                                    <tr key={index}>
-                                        <td> {key.name} </td>
-                                        <td className="address"> {key.address} </td>
-                                        <td> {key.pinCode} </td>
-                                        <td> {key.occupied} </td>
-                                        <td className={key.vacancies <= 5 ? 'low-vacancies' : ''}>
-                                            {key.vacancies}
-                                        </td>
-                                        <td>
-                                            <a href={key.mapLink}>
-                                                <FaMapMarkerAlt class="icon"
-                                                    style={{cursor: 'pointer', color: 'red'}}
-                                                />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-                    </table>
-                    <span className="cursor-pointer" onClick={this.getData}>
-                        <span className="refreshText"> Refresh data </span>
-                        <span className="refreshBtn">
-                            <FiRefreshCw class="icon" />
-                        </span>
-                    </span>
-                    <br />
-                    Not found any with your pin code? Find nearest pin code
-                    <input id="nearestBox" type="number" className="inputBox"
-                        placeholder="Enter pin code" onInput={this.findNearest} />
-                    <br />
-                    <div id="nearestPinCode"> </div>
-                    <br />
-                    <div className="emptySpace">  </div>
-                </div>
-            </div>
-        );
+			<div>
+				<NavBar searchBox="true" />
+				<div className="App">
+					<h2 className="addDataHeading"> Graveyard data </h2>
+					<table>
+						<thead>
+							<tr>
+								<th> Name </th>
+								<th className="address"> Address </th>
+								<th> Pin Code </th>
+								<th> Occupied </th>
+								<th> Vacancies </th>
+								<th> Map location </th>
+							</tr>
+						</thead>
+						<tbody>
+							{this.state.displayData.map((key, index) => {
+								if (!key.mapLink)
+									key.mapLink =
+										"https://www.google.com/maps/search/" +
+										key.name +
+										", " +
+										key.address;
+								return (
+									<tr key={index}>
+										<td> {key.name} </td>
+										<td className="address">
+											{" "}
+											{key.address}{" "}
+										</td>
+										<td> {key.pinCode} </td>
+										<td> {key.occupied} </td>
+										<td
+											className={
+												key.vacancies <= 5
+													? "low-vacancies"
+													: ""
+											}
+										>
+											{key.vacancies}
+										</td>
+										<td>
+											<a href={key.mapLink}>
+												<FaMapMarkerAlt
+													className="icon"
+													style={{
+														cursor: "pointer",
+														color: "red",
+													}}
+												/>
+											</a>
+										</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+					<span className="cursor-pointer" onClick={this.getData}>
+						<span className="refreshText"> Refresh data </span>
+						<span className="refreshBtn">
+							<FiRefreshCw className="icon" />
+						</span>
+					</span>
+					<br />
+					Not found any with your pin code? Find nearest pin code
+					<input
+						id="nearestBox"
+						type="number"
+						className="inputBox"
+						placeholder="Enter pin code"
+						onInput={this.findNearest}
+					/>
+					<br />
+					<div id="nearestPinCode"> </div>
+					<br />
+					<div className="emptySpace"> </div>
+				</div>
+			</div>
+		);
     }
 }
 
@@ -224,10 +240,7 @@ export class HomePage extends React.Component {
 export class GetBookedSlots extends React.Component {
     constructor(props)  {
         super(props)
-        if (window.location.href.includes('localhost'))
-            this.backendURL = 'http://localhost:5000'
-        else
-            this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.backendURL = backendURL
         this.state = { bookedSlots: [] }
     }
     getBookedSlots = async (access_token) => {
@@ -344,10 +357,7 @@ export class GetBookedSlots extends React.Component {
 export class GetTicket extends React.Component {
     constructor(props)  {
         super(props)
-        if (window.location.href.includes('localhost'))
-            this.backendURL = 'http://localhost:5000'
-        else
-            this.backendURL = 'https://gyard-be.herokuapp.com'
+        this.backendURL = backendURL
     }
     render()    {
         var personName = cookie.load('personName', { path: '/' })

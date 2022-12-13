@@ -5,14 +5,12 @@ import { FaSearchLocation } from 'react-icons/fa'
 import { RiAccountPinCircleFill } from 'react-icons/ri'
 
 import './HomePage.css'
+import backendURL from './BackendURL'
 
 export class NavBar extends React.Component {
     constructor(props){
       super(props)
-      if (window.location.href.includes('localhost'))
-          this.backendURL = 'http://localhost:5000'
-      else
-          this.backendURL = 'https://gyard-be.herokuapp.com'
+      this.backendURL = backendURL
       this.access_token = cookie.load('access_token')
     }
     getUpdateButton = () => {
@@ -42,34 +40,44 @@ export class NavBar extends React.Component {
     }
     render() {
         // navbar like https://www.w3schools.com/howto/howto_css_more_button.asp
-        return (<div class="navbar">
-            <a id="top-text" href="/"> Graveyard vacancy tracking system </a>
-            <div class="dropdown">
-                <button class="dropbtn">
-                    <RiAccountPinCircleFill className="clickIcon" id="accountIcon" />
-                </button>
-                <div class="dropdown-content">
-                    {this.getLoginButton()}
-                </div>
-            </div> 
-            {/* if props has searchBox, return div */}
-            {this.props.searchBox ?
-                <div>
-                    <input id="searchBox" type="search" className="inputBox"
-                        placeholder="Search for graveyard" />
-                    <FaSearchLocation class="icon" id="searchIcon" />
-                </div> : null}
-        </div>)
+        return (
+			<div className="navbar">
+				<a id="top-text" href="/">
+					{" "}
+					Graveyard vacancy tracking system{" "}
+				</a>
+				<div className="dropdown">
+					<button className="dropbtn">
+						<RiAccountPinCircleFill
+							className="clickIcon"
+							id="accountIcon"
+						/>
+					</button>
+					<div className="dropdown-content">
+						{this.getLoginButton()}
+					</div>
+				</div>
+				{/* if props has searchBox, return div */}
+				{this.props.searchBox ? (
+					<div>
+						<input
+							id="searchBox"
+							type="search"
+							className="inputBox"
+							placeholder="Search for graveyard"
+						/>
+						<FaSearchLocation className="icon" id="searchIcon" />
+					</div>
+				) : null}
+			</div>
+		);
     }
 }
 
 export class PageClass extends React.Component {
     constructor(props){
       super(props)
-      if (window.location.href.includes('localhost'))
-          this.backendURL = 'http://localhost:5000'
-      else
-          this.backendURL = 'https://gyard-be.herokuapp.com'
+      this.backendURL = backendURL
       this.access_token = cookie.load('access_token')
       // if not homepage or login page or logout page, ask for login
       if (window.location.href.endsWith('/') || window.location.href.endsWith('/login')

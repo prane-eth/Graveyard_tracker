@@ -1,20 +1,15 @@
-import React from 'react'
-import axios from 'axios'
-import cookie from 'react-cookies'
-import { Redirect } from 'react-router-dom'
-import './HomePage.css'
-import { NavBar } from './NavBar'
+import React, { useState } from "react";
+import axios from "axios";
+import cookie from "react-cookies";
+import { Redirect } from "react-router-dom";
+import "./HomePage.css";
+import { NavBar } from "./NavBar";
+import backendURL from './BackendURL'
 
 export class BookSlot extends React.Component {
     constructor(props){
       super(props)
-      // this.state = { data : dummyData || [] }
-      
-      if (window.location.href.includes('localhost'))
-          this.backendURL = 'http://localhost:5000'
-      else
-          this.backendURL = 'https://gyard-be.herokuapp.com'
-      // this.state.displayData = []
+      this.backendURL = backendURL
     }
     sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -32,7 +27,7 @@ export class BookSlot extends React.Component {
         personName = personName.trim()
         name = name.trim()
 
-        if (name == personName) {
+        if (name === personName) {
             this.setErrorMsg('Graveyard name and Person name cannot be same')
             return
         }
@@ -41,7 +36,7 @@ export class BookSlot extends React.Component {
             this.setErrorMsg('Please enter the name')
             return
         }
-        if (pinCode.toString().length != 6)  {
+        if (pinCode.toString().length !== 6)  {
             this.setErrorMsg('Pin Code should have 6 digits')
             return
         }
